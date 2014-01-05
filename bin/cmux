@@ -1,0 +1,27 @@
+#!/bin/sh
+# Attach if session has been created
+tmux has-session -t archimedes 2>/dev/null
+if [ $? -eq 0 ]; then
+  echo "Session already exists, attaching..."
+  tmux attach-session -t archimedes
+  exit 0;
+fi
+
+# Otherwise, make it happen!
+tmux new-session -d -s archimedes -n server
+
+# Create Windows
+tmux new-window -t archimedes:2 -n vim
+tmux new-window -t archimedes:3 -n zsh
+
+# Create Panes
+tmux split-window -t archimedes:vim
+
+# Run commands
+tmux send-keys -t archimedes:vim.0 'c etto-archimedes; vim -S' C-m
+tmux send-keys -t archimedes:vim.1 'c etto-archimedes; grunt watch' C-m
+
+# Connect to Session
+tmux select-window -t archimedes:vim
+tmux attach-session -t archimedes
+

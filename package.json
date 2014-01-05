@@ -1,0 +1,35 @@
+{
+  "name": "etto-archimedes",
+  "version": "0.0.0",
+  "description": "Coursetto backend, TDD style",
+  "author": "Coursetto",
+  "license": "Private",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "start": "NODE_ENV=production node index.js",
+    "test": "grunt"
+  },
+  "dependencies": {
+    "express": "~3.4.7",
+    "mongoose": "~3.8.3",
+    "npmlog": "0.0.6",
+    "nconf": "~0.6.9",
+    "require-directory": "~1.2.0"
+  },
+  "devDependencies": {
+    "mocha": "~1.16.2",
+    "supertest": "~0.8.2",
+    "grunt": "~0.4.2",
+    "load-grunt-tasks": "~0.2.1",
+    "time-grunt": "~0.2.7",
+    "grunt-contrib-watch": "~0.5.3",
+    "grunt-contrib-connect": "~0.6.0",
+    "grunt-contrib-jshint": "~0.8.0",
+    "grunt-jsbeautifier": "~0.2.6",
+    "grunt-env": "~0.4.1",
+    "grunt-mocha-test": "~0.8.1",
+    "grunt-dox": "https://github.com/randallagordon/grunt-dox/tarball/coursetto",
+    "connect-livereload": "https://github.com/randallagordon/connect-livereload/tarball/patch-ignore"
+  }
+}

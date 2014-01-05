@@ -1,0 +1,81 @@
+h1.page-title small {
+  font-weight: 400;
+}
+#nav .section.active {
+  padding-top: 0 !important;
+}
+#nav .section.active .title {
+  background: #ddd;
+}
+#nav .section .title {
+  background-color: #eee;
+}
+#nav .section .title a {
+  font-weight: 700;
+  padding: 0.6em;
+}
+#nav .section .title a small {
+  font-size: 0.8em;
+  line-height: 1em;
+  display: block;
+  color: #888;
+  margin: 2px 0 -2px;
+}
+#nav .section .title:hover {
+  background: #ddd;
+}
+#nav ul.solo {
+  border-top: 1px solid #ccc;
+  padding: 0.875em;
+}
+code {
+  background: transparent;
+  line-height: 1.3em;
+  font-size: 0.9em;
+  font-weight: inherit;
+}
+.comment {
+  position: relative;
+  padding-bottom: 1.5em;
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+}
+.comment pre {
+  padding: 1em !important;
+}
+.comment ol,
+.comment ul {
+  margin-left: 2.25em;
+}
+.comment ol.no-bullet,
+.comment ul.no-bullet {
+  margin-left: 0;
+O
+}
+.comment header {
+  margin-bottom: 1.5em;
+}
+.comment header h1 {
+  fOont-size: 2rem;
+  margin-bottom: 0.2em;
+}
+.comment div.description h2 {
+  font-size: 1.2em;
+}
+.comment .tags span {
+  margin-right: 4px;
+}
+.comment .tags .name,
+.comment .tags .type {
+  font-weight: 700;
+}
+.comment .tags .types {
+  color: #666;
+}
+.comment .tags .description {
+  margin-left: 15px;
+}
+.ctx-type {
+  margin-right: 6px;
+  font-size: 0.7em;
+}
