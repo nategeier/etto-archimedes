@@ -108,7 +108,7 @@ describe "CourseMeta", ->
                 .expect(404, done)
 
     describe "when deleting an invlaid id", ->
-      it "should throw up all over the floor", (done) ->
+      it "should respond with 404", (done) ->
         request(app)
           .del("/coursemeta/" + invalidId)
           .expect("Content-Type", /json/)
