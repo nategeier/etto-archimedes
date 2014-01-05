@@ -107,7 +107,7 @@ module.exports = function (grunt) {
 
   // Rename watch task so the environment can be changed to `test` before watching
   grunt.renameTask("watch", "_watch");
-  grunt.registerTask("watch", ["env:test", "_watch"]);
+  grunt.registerTask("watch", ["env:test", "_watch:js"]);
 
   grunt.registerTask("serve", function (target) {
     if (target === "dox") {
