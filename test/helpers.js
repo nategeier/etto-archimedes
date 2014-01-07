@@ -26,11 +26,15 @@ module.exports.createAndTestFrom = function (collection) {
  * @returns {Function} The final remove function which takes the document to
  *                     remove as a parameter
  */
-module.exports.removeFrom = function(collection) {
+module.exports.removeFrom = function (collection) {
   return function (doc) {
+    var id = doc._id;
+    if (typeof id === "string") {
+      id = new mongoose.Types.ObjectId(id);
+    }
     mongoose.connection.collections[collection]
       .remove({
-        _id: doc._id
+        _id: id
       }, function () {});
   };
 };

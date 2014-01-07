@@ -14,7 +14,6 @@ remove = require("../helpers").removeFrom(route.collection)
 
 # Data for tests
 invalidId = "000000000000000000000000"
-
 courseSeed =
   title: "Test Course"
   subtitle: "Test Subtitle"
@@ -32,7 +31,6 @@ describe "CourseMeta", ->
           .end (err, res) ->
             isInList = JSON.parse(res.text).some (c) ->
               c._id.toString() == course._id.toString()
-
             assert.equal isInList, true
             remove course
             done()
@@ -48,6 +46,7 @@ describe "CourseMeta", ->
             .end (err, res) ->
               result = JSON.parse(res.text)
               assert.equal result._id, course._id
+              remove course
               done()
 
     describe "when requesting with an invalid id", ->

@@ -1,18 +1,20 @@
 app = require "../../index"
 
 assert = require "assert"
-mongoose = require "mongoose"
 request = require "supertest"
 
-# Route Settings
+# Route settings
 route =
   path: "/course/"
   collection: "courses"
 
-courseId = null
-invalidId = "000000000000000000000000"
+# Setup helper functions
+createAndTest = require("../helpers").createAndTestFrom(route.collection)
+remove = require("../helpers").removeFrom(route.collection)
 
-course =
+# Data for tests
+invalidId = "000000000000000000000000"
+courseSeed =
   title: "Test Course"
   subtitle: "Test Subtitle"
   description: "Testing..."
@@ -22,37 +24,34 @@ course =
     { type: "text", data: { text: "Stuff and things." }},
   ]
 
-beforeEach (done) ->
-  mongoose.connection.collections[route.collection].drop (err) ->
-    mongoose.connection.collections[route.collection]
-      .insert course, (err, docs) ->
-        courseId = docs[0]._id
-        done()
-
 describe "Course", ->
   describe "GET " + route.path, ->
     it "should return an array of all objects", (done) ->
-      request(app)
-        .get(route.path)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end (err, res) ->
-          result = JSON.parse(res.text)[0]
-          assert.equal result._id, courseId
-          assert.equal result.title, "Test Course"
-          done()
+      createAndTest courseSeed, (course) ->
+        request(app)
+          .get(route.path)
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .end (err, res) ->
+            isInList = JSON.parse(res.text).some (c) ->
+              c._id.toString() == course._id.toString()
+            assert.equal isInList, true
+            remove course
+            done()
 
   describe "GET " + route.path + ":id", ->
     describe "when requesting with a valid id", ->
       it "should return the requested object", (done) ->
-        request(app)
-          .get(route.path + courseId)
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .end (err, res) ->
-            result = JSON.parse(res.text)
-            assert.equal result._id, courseId
-            done()
+        createAndTest courseSeed, (course) ->
+          request(app)
+            .get(route.path + course._id)
+            .expect("Content-Type", /json/)
+            .expect(200)
+            .end (err, res) ->
+              result = JSON.parse(res.text)
+              assert.equal result._id, course._id
+              remove course
+              done()
     describe "when requesting with an invalid id", ->
       it "should return 404", (done) ->
         request(app)
@@ -76,6 +75,7 @@ describe "Course", ->
         .end (err, res) ->
           result = JSON.parse res.text
           assert.equal result.title, newCourse.title
+          remove result
           done()
 
   describe "PUT " + route.path, ->
@@ -87,14 +87,16 @@ describe "Course", ->
 
     describe "when updating an existing id", ->
       it "should update and respond with 200", (done) ->
-        request(app)
-          .put(route.path + courseId)
-          .send(updateCourse)
-          .expect(200)
-          .end (err, res) ->
-            result = JSON.parse res.text
-            assert.equal result.title, updateCourse.title
-            done()
+        createAndTest courseSeed, (course) ->
+          request(app)
+            .put(route.path + course._id)
+            .send(updateCourse)
+            .expect(200)
+            .end (err, res) ->
+              result = JSON.parse res.text
+              assert.equal result.title, updateCourse.title
+              remove course
+              done()
 
     describe "when updating an invalid id", ->
       it "should respond with 404", (done) ->
@@ -107,14 +109,18 @@ describe "Course", ->
     describe "when deleting an existing id", ->
       it "should respond with 204 and receive 404 upon searching the id",
         (done) ->
-          request(app)
-            .del(route.path + courseId)
-            .expect(204)
-            .end (err, res) ->
-              request(app)
-                .get(route.path + courseId)
-                .expect("Content-Type", /json/)
-                .expect(404, done)
+          createAndTest courseSeed, (course) ->
+            request(app)
+              .del(route.path + course._id)
+              .expect(204)
+              .end (err, res) ->
+                request(app)
+                  .get(route.path + course._id)
+                  .expect("Content-Type", /json/)
+                  .expect(404)
+                  .end (err, res) ->
+                    remove course
+                    done()
 
     describe "when deleting an invlaid id", ->
       it "should respond with 404", (done) ->
