@@ -1,2 +1,15 @@
 {
+  "baseurl": "coursetto.com",
+  "apiver": "api/v1",
+  "passport": {
+    "github": {
+      "callbackURL": "auth/github/callback"
+    },
+    "facebook": {
+      "callbackURL": "auth/facebook/callback"
+    },
+    "google": {
+      "callbackURL": "auth/google/callback"
+    }
+  }
 }
