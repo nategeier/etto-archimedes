@@ -1,5 +1,5 @@
 {
   "mongo": {
-    "url": "mongodb://localhost/coursetto"
+    "url": "mongodb://localhost/etto-dev"
   }
 }
