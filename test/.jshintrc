@@ -20,6 +20,8 @@
   "smarttabs": true,
   "jquery": true,
   "globals": {
-    "_": false
+    "_": false,
+    "it": false,
+    "describe": false
   }
 }
