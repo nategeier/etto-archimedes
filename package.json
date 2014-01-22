@@ -12,9 +12,11 @@
   },
   "dependencies": {
     "express": "~3.4.7",
+    "connect-redis": "~1.4.6",
     "mongoose": "~3.8.3",
     "npmlog": "0.0.6",
     "nconf": "~0.6.9",
+    "nodemailer": "~0.6.0",
     "require-directory": "~1.2.0",
     "async": "~0.2.9",
     "passport": "~0.1.18",
@@ -38,7 +40,7 @@
     "grunt-jsbeautifier": "~0.2.6",
     "grunt-env": "~0.4.1",
     "grunt-mocha-test": "~0.8.1",
-    "grunt-dox": "https://github.com/randallagordon/grunt-dox/tarball/coursetto",
+    "grunt-dox": "~0.5.0",
     "connect-livereload": "https://github.com/randallagordon/connect-livereload/tarball/patch-ignore"
   }
 }
