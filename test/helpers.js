@@ -28,13 +28,17 @@ module.exports.createAndTestFrom = function (collection) {
  */
 module.exports.removeFrom = function (collection) {
   return function (doc) {
+
     var id = doc._id;
     if (typeof id === "string") {
       id = new mongoose.Types.ObjectId(id);
     }
+
     mongoose.connection.collections[collection]
       .remove({
         _id: id
-      }, function () {});
+      }, function (err, results) {
+
+      });
   };
 };

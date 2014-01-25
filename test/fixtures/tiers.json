@@ -1,0 +1,90 @@
+[{
+
+  "title": "Cashier",
+  "parent": "52e172b5a662bbfd9c8fb134",
+  "_id": "52e172cea662bbfd9c8fb137",
+  "_courses": [],
+  "_users": [],
+  "ancestors": [
+    "52e1729ea662bbfd9c8fb133",
+    "52e172b5a662bbfd9c8fb134"
+  ],
+  "children": [],
+  "_children": [],
+  "__v": 0
+}, {
+  "__v": 0,
+  "_children": [
+    "52e172b5a662bbfd9c8fb134",
+    "52e172baa662bbfd9c8fb135",
+    "52e172c6a662bbfd9c8fb136"
+  ],
+  "_courses": [
+    "52dc507f4261e21a0e454e88"
+  ],
+  "_id": "52e1729ea662bbfd9c8fb133",
+  "_users": [],
+  "ancestors": [],
+  "children": [],
+  "title": "New Seasons"
+}, {
+  "__v": 0,
+  "_children": [],
+  "_courses": [
+    "52dc507f4261e21a0e454e88"
+  ],
+  "_id": "52e172baa662bbfd9c8fb135",
+  "_users": [],
+  "ancestors": [
+    "52e1729ea662bbfd9c8fb133"
+  ],
+  "children": [],
+  "parent": "52e1729ea662bbfd9c8fb133",
+  "title": "Alberta"
+}, {
+  "__v": 0,
+  "_children": [],
+  "_courses": [
+    "52dc507f4261e21a0e454e88"
+  ],
+  "_id": "52e172c6a662bbfd9c8fb136",
+  "_users": [],
+  "ancestors": [
+    "52e1729ea662bbfd9c8fb133"
+  ],
+  "children": [],
+  "parent": "52e1729ea662bbfd9c8fb133",
+  "title": "Hawthorn"
+}, {
+  "__v": 0,
+  "_children": [
+    "52e172cea662bbfd9c8fb137",
+    "52e172d5a662bbfd9c8fb138"
+  ],
+  "_courses": [
+    "52dc507f4261e21a0e454e88"
+  ],
+  "_id": "52e172b5a662bbfd9c8fb134",
+  "_users": [],
+  "ancestors": [
+    "52e1729ea662bbfd9c8fb133"
+  ],
+  "children": [],
+  "parent": "52e1729ea662bbfd9c8fb133",
+  "title": "Williams"
+}, {
+  "__v": 0,
+  "_children": [],
+  "_courses": [
+    "52dc507f4261e21a0e454e88"
+  ],
+  "_id": "52e172d5a662bbfd9c8fb138",
+  "_users": [],
+  "ancestors": [
+    "52e1729ea662bbfd9c8fb133",
+    "52e172b5a662bbfd9c8fb134"
+  ],
+  "children": [],
+  "parent": "52e172b5a662bbfd9c8fb134",
+  "title": "Customer"
+}]

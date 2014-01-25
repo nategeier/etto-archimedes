@@ -1,0 +1,56 @@
+{
+  "course": {
+    "price": "5.00",
+    "_id": "52dc507f4261e21a0e454e88"
+  },
+  "user": {
+    "__v": 0,
+    "_id": "52e172317691cc179ca5d36a",
+    "_tier": {
+      "_id": "52e1729ea662bbfd9c8fb133"
+    },
+    "email": "nate@interactivebalance.com",
+    "enabled": true,
+    "name": "Nate Geier",
+    "provider": "github",
+    "meta": {
+      "votes": 1,
+      "favs": 1
+    },
+    "_needToTakeCourses": [],
+    "_createdCourses": [],
+    "created": "2014-01-23T19:49:05.578Z"
+  },
+  "card": {
+    "number": "4242424242424242",
+    "exp_month": "10",
+    "exp_year": "2014",
+    "cvc": "333"
+  },
+  "tiers": [{
+    "hasChildren": true,
+    "hasAddedChildren": true,
+    "minimized": true,
+    "_id": "52e1729ea662bbfd9c8fb133"
+  }, {
+    "hasChildren": false,
+    "hasAddedChildren": false,
+    "minimized": true,
+    "_id": "52e172baa662bbfd9c8fb135"
+  }, {
+    "hasChildren": false,
+    "hasAddedChildren": false,
+    "minimized": true,
+    "_id": "52e172c6a662bbfd9c8fb136"
+  }, {
+    "hasChildren": true,
+    "hasAddedChildren": true,
+    "minimized": false,
+    "_id": "52e172b5a662bbfd9c8fb134"
+  }, {
+    "hasChildren": false,
+    "hasAddedChildren": false,
+    "minimized": true,
+    "_id": "52e172d5a662bbfd9c8fb138"
+  }]
+}
