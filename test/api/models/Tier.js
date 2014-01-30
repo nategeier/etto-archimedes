@@ -3,7 +3,7 @@ var app = require("../../../index"),
   async = require("async"),
   request = require("supertest"),
   routes = require("../../routes.json"),
-  env = require("../../environment/envSetUp");
+  env = require("../../fixtures/testSetUp");
 
 var Tier = require("../../../lib/models/Tier");
 

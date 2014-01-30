@@ -1,27 +1,27 @@
-var app = require("../../../index"),
+var app = require("../../index"),
   assert = require("assert"),
   async = require("async"),
   request = require("supertest"),
-  routes = require("../../routes.json"),
-  env = require("../../environment/envSetUp");
+  routes = require("../routes.json"),
+  env = require("../fixtures/testSetUp");
 
-var removeTier = require("../../helpers").removeFrom(routes.tier.collection),
-  removeUser = require("../../helpers").removeFrom(routes.user.collection),
-  removeCourse = require("../../helpers").removeFrom(routes.course.collection),
-  removeRecord = require("../../helpers").removeFrom(routes.record.collection),
-  removeReport = require("../../helpers").removeFrom(routes.report.collection);
+var removeTier = require("../helpers").removeFrom(routes.tier.collection),
+  removeUser = require("../helpers").removeFrom(routes.user.collection),
+  removeCourse = require("../helpers").removeFrom(routes.course.collection),
+  removeRecord = require("../helpers").removeFrom(routes.record.collection),
+  removeReport = require("../helpers").removeFrom(routes.report.collection);
 
 describe("Tier", function () {
   describe("POST " + routes.tier.path, function () {
 
     it("should add a tier", function (done) {
 
-      var parentTier = require("../../fixtures/parentTier"),
-        childTier = require("../../fixtures/childTier1"),
-        usaTier = require("../../fixtures/usaTier"),
-        user = require("../../fixtures/user"),
-        record = require("../../fixtures/record"),
-        course = require("../../fixtures/course"),
+      var parentTier = require("../fixtures/parentTier"),
+        childTier = require("../fixtures/childTier1"),
+        usaTier = require("../fixtures/usaTier"),
+        user = require("../fixtures/user"),
+        record = require("../fixtures/record"),
+        course = require("../fixtures/course"),
         report = null;
 
       async.waterfall([
@@ -65,11 +65,11 @@ describe("Tier", function () {
 
     it("should list all children and counts users and all tiers", function (done) {
 
-      var parentTier = require("../../fixtures/parentTier"),
-        childTier = require("../../fixtures/childTier1"),
-        user = require("../../fixtures/user"),
-        record = require("../../fixtures/record"),
-        course = require("../../fixtures/course"),
+      var parentTier = require("../fixtures/parentTier"),
+        childTier = require("../fixtures/childTier1"),
+        user = require("../fixtures/user"),
+        record = require("../fixtures/record"),
+        course = require("../fixtures/course"),
         report = null;
 
       async.waterfall([
@@ -107,12 +107,12 @@ describe("Tier", function () {
 
     it("should remove tier and all its children", function (done) {
 
-      var parentTier = require("../../fixtures/parentTier"),
-        childTier = require("../../fixtures/childTier1"),
-        usaTier = require("../../fixtures/usaTier"),
-        user = require("../../fixtures/user"),
-        record = require("../../fixtures/record"),
-        course = require("../../fixtures/course"),
+      var parentTier = require("../fixtures/parentTier"),
+        childTier = require("../fixtures/childTier1"),
+        usaTier = require("../fixtures/usaTier"),
+        user = require("../fixtures/user"),
+        record = require("../fixtures/record"),
+        course = require("../fixtures/course"),
         report = null;
 
       async.waterfall([
@@ -151,12 +151,12 @@ describe("Tier", function () {
 
     it("should list all courses in tier", function (done) {
 
-      var parentTier = require("../../fixtures/parentTier"),
-        childTier = require("../../fixtures/childTier1"),
-        usaTier = require("../../fixtures/usaTier"),
-        user = require("../../fixtures/user"),
-        record = require("../../fixtures/record"),
-        course = require("../../fixtures/course"),
+      var parentTier = require("../fixtures/parentTier"),
+        childTier = require("../fixtures/childTier1"),
+        usaTier = require("../fixtures/usaTier"),
+        user = require("../fixtures/user"),
+        record = require("../fixtures/record"),
+        course = require("../fixtures/course"),
         report = null;
 
       async.waterfall([

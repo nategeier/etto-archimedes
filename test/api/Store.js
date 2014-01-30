@@ -1,56 +1,79 @@
-"use strict"
-
 var app = require("../../index"),
   assert = require("assert"),
   async = require("async"),
   request = require("supertest"),
-  tiers = require("../fixtures/tiers"),
-  order = require("../fixtures/order");
+  routes = require("../routes.json"),
+  env = require("../fixtures/testSetUp");
 
-var route = {
-  path: "/tier/",
-  collection: "tiers"
-};
+var removeTier = require("../helpers").removeFrom(routes.tier.collection),
+  removeUser = require("../helpers").removeFrom(routes.user.collection),
+  removeCourse = require("../helpers").removeFrom(routes.course.collection),
+  removeRecord = require("../helpers").removeFrom(routes.record.collection),
+  removeReport = require("../helpers").removeFrom(routes.report.collection);
 
-describe("Store", function () {
-  describe("POST " + route.path, function () {
+describe("Tier", function () {
+  describe("POST " + routes.record.path, function () {
     /*
-    var createAndTest = require("../helpers").createAndTestFrom(route.collection);
-    var removeFrom = require("../helpers").removeFrom(route.collection);
+    it("should puchase a course", function (done) {
 
-    var addTiers = function (tiers, callback) {
-      async.map(tiers, function (tier, callback) {
-        createAndTest(tier, function (tier) {
-          callback(null, tier);
-        });
-
-      }, function (err, addTiers) {
-        callback(err, addTiers);
-        //-----
-      });
-    };
-
-    var removeTiers = function (tiers, callback) {
-
-      async.map(tiers, function (tier, ready) {
-        removeFrom(tier);
-        ready(null, null);
-
-      }, function (err, result) {
-        callback(err, result);
-      });
-    };
-
-    it("should enter documents tiers", function (done) {
+      var parentTier = require("../fixtures/parentTier"),
+        childTier = require("../fixtures/childTier1"),
+        user = require("../fixtures/user"),
+        record = require("../fixtures/record"),
+        course = require("../fixtures/course"),
+        report = null;
 
       async.waterfall([
           function (callback) {
-            addTiers(tiers, function (err, results) {
-              callback(err, results);
+            //--- Adds initial tier
+            env.intTestSetup(parentTier, childTier, course, user, record, function (err, results) {
+              report = results;
+              callback(null);
             });
           },
-          function (addedTiers, callback) {
+          function (callback) {
 
+            var order = {
+              "course": {
+                "price": "5.00",
+                "_id": course._id
+              },
+              "user": {
+                "__v": 0,
+                "_id": user._id,
+                "_tier": {
+                  "_id": parentTier._id
+                },
+                "email": "nate@interactivebalance.com",
+                "enabled": true,
+                "name": "Nate Geier",
+                "provider": "github",
+                "meta": {
+                  "votes": 1,
+                  "favs": 1
+                },
+                "_needToTakeCourses": [],
+                "_createdCourses": [],
+                "created": "2014-01-23T19:49:05.578Z"
+              },
+              "card": {
+                "number": "4242424242424242",
+                "exp_month": "10",
+                "exp_year": "2014",
+                "cvc": "333"
+              },
+              "tiers": [{
+                "hasChildren": true,
+                "hasAddedChildren": true,
+                "minimized": true,
+                "_id": parentTier._id
+              }, {
+                "hasChildren": false,
+                "hasAddedChildren": false,
+                "minimized": true,
+                "_id": childTier._id
+              }]
+            };
 
             request(app)
               .post("/store/purchase")
@@ -58,35 +81,25 @@ describe("Store", function () {
               .expect("Content-Type", /json/)
               .expect(200)
               .end(function (err, res) {
-                assert.equal(res.body.paid, true);
-                callback(null, addedTiers);
-              });
-          },
 
-          function (addedTiers, callback) {
-            removeTiers(addedTiers, function (err, results) {
-              callback(err, results);
-            });
+                //assert.equal(res.body.title, usaTier.title);
+                callback(null);
+              });
+
           }
         ],
-        function (err, result) {
+        function (err, results) {
+
+          removeReport(report);
+          removeRecord(record);
+          removeUser(user);
+          removeCourse(course);
+          removeTier(childTier);
+          removeTier(parentTier);
           done();
         });
+
     });
     */
-    /*
-    it("should find card from Stripe memeber", function (done) {
-      request(app)
-        .post("/store/find")
-        .send(docs.order.user._id)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
-          console.log(res.body)
-          assert.equal(err, null);
-          done();
-        });
-    });
-*/
   });
 });
