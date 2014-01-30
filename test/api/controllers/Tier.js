@@ -1,92 +1,18 @@
 var app = require("../../../index"),
   assert = require("assert"),
   async = require("async"),
-  request = require("supertest");
+  request = require("supertest"),
+  routes = require("../../routes.json"),
+  env = require("../../environment/envSetUp");
 
-var Tier = require("../../../lib/models/Tier");
-
-var route = {
-  tier: {
-    path: "/tier/",
-    collection: "tiers"
-  },
-  course: {
-    path: "/course/",
-    collection: "courses"
-  },
-  user: {
-    path: "/user/",
-    collection: "users"
-  }
-};
+var removeTier = require("../../helpers").removeFrom(routes.tier.collection),
+  removeUser = require("../../helpers").removeFrom(routes.user.collection),
+  removeCourse = require("../../helpers").removeFrom(routes.course.collection),
+  removeRecord = require("../../helpers").removeFrom(routes.record.collection),
+  removeReport = require("../../helpers").removeFrom(routes.report.collection);
 
 describe("Tier", function () {
-  describe("POST " + route.path, function () {
-
-    var createAndTestTier = require("../../helpers").createAndTestFrom(route.tier.collection),
-      removeTier = require("../../helpers").removeFrom(route.tier.collection),
-      createAndTestUser = require("../../helpers").createAndTestFrom(route.user.collection),
-      removeUser = require("../../helpers").removeFrom(route.user.collection),
-      createAndTestCourse = require("../../helpers").createAndTestFrom(route.course.collection),
-      removeCourse = require("../../helpers").removeFrom(route.course.collection);
-
-    var intTestSetup = function (parentTier, childTier, course, user, callback) {
-
-      async.waterfall([
-          function (callback) {
-            //--- Adds initial tier
-            createAndTestTier(parentTier, function (result) {
-              parentTier = result;
-              callback(null, result);
-            });
-          },
-          function (parentTier, callback) {
-
-            childTier.parent = parentTier._id;
-
-            //--- Adds child tier, need to go to controller to handle popping in the ancesstors
-            request(app)
-              .post("/tier/add")
-              .send(childTier)
-              .expect("Content-Type", /json/)
-              .expect(200)
-              .end(function (err, res) {
-
-                assert.equal(res.body.title, childTier.title);
-                childTier._id = res.body._id;
-                callback(null);
-              });
-          },
-          function (callback) {
-            //--- Create a course
-            createAndTestCourse(course, function (result) {
-              course = result;
-              callback(null, course);
-            });
-          },
-          function (course, callback) {
-
-            Tier.addCourseAllDescendants(parentTier._id, course._id, function (err, result) {
-              callback(err);
-
-            });
-          },
-
-          function (callback) {
-
-            user._tier = childTier._id;
-            createAndTestUser(user, function (result) {
-              //user._id = result._id;
-              callback(null, user);
-            });
-          }
-
-        ],
-        function (err, results) {
-
-          callback(err, results);
-        });
-    };
+  describe("POST " + routes.tier.path, function () {
 
     it("should add a tier", function (done) {
 
@@ -94,12 +20,15 @@ describe("Tier", function () {
         childTier = require("../../fixtures/childTier1"),
         usaTier = require("../../fixtures/usaTier"),
         user = require("../../fixtures/user"),
-        course = require("../../fixtures/course");
+        record = require("../../fixtures/record"),
+        course = require("../../fixtures/course"),
+        report = null;
 
       async.waterfall([
           function (callback) {
             //--- Adds initial tier
-            intTestSetup(parentTier, childTier, course, user, function (err, results) {
+            env.intTestSetup(parentTier, childTier, course, user, record, function (err, results) {
+              report = results;
               callback(null);
             });
           },
@@ -122,8 +51,9 @@ describe("Tier", function () {
           }
         ],
         function (err, results) {
-
+          removeReport(report);
           removeUser(user);
+          removeRecord(record);
           removeCourse(course);
           removeTier(childTier);
           removeTier(usaTier);
@@ -138,12 +68,15 @@ describe("Tier", function () {
       var parentTier = require("../../fixtures/parentTier"),
         childTier = require("../../fixtures/childTier1"),
         user = require("../../fixtures/user"),
-        course = require("../../fixtures/course");
+        record = require("../../fixtures/record"),
+        course = require("../../fixtures/course"),
+        report = null;
 
       async.waterfall([
           function (callback) {
             //--- Adds initial tier
-            intTestSetup(parentTier, childTier, course, user, function (err, results) {
+            env.intTestSetup(parentTier, childTier, course, user, record, function (err, results) {
+              report = results;
               callback(null);
             });
           },
@@ -155,16 +88,15 @@ describe("Tier", function () {
               .expect("Content-Type", /json/)
               .expect(200)
               .end(function (err, res) {
-                //assert.equal(res.body.title, usaTier.title);
-                //usaTier._id = res.body._id;
-                console.log(res.body[0])
+                assert.equal(res.body[0].totUsers, 1);
                 callback(null);
               });
           }
         ],
         function (err, results) {
-
+          removeReport(report);
           removeUser(user);
+          removeRecord(record);
           removeCourse(course);
           removeTier(childTier);
           removeTier(parentTier);
@@ -179,12 +111,15 @@ describe("Tier", function () {
         childTier = require("../../fixtures/childTier1"),
         usaTier = require("../../fixtures/usaTier"),
         user = require("../../fixtures/user"),
-        course = require("../../fixtures/course");
+        record = require("../../fixtures/record"),
+        course = require("../../fixtures/course"),
+        report = null;
 
       async.waterfall([
           function (callback) {
             //--- Adds initial tier
-            intTestSetup(parentTier, childTier, course, user, function (err, results) {
+            env.intTestSetup(parentTier, childTier, course, user, record, function (err, results) {
+              report = results;
               callback(null);
             });
           },
@@ -203,11 +138,55 @@ describe("Tier", function () {
           }
         ],
         function (err, results) {
-
+          removeReport(report);
           removeUser(user);
+          removeRecord(record);
           removeCourse(course);
-          //removeTier(childTier);
-          //removeTier(parentTier);
+          removeTier(childTier);
+          removeTier(parentTier);
+          done();
+        });
+
+    });
+
+    it("should list all courses in tier", function (done) {
+
+      var parentTier = require("../../fixtures/parentTier"),
+        childTier = require("../../fixtures/childTier1"),
+        usaTier = require("../../fixtures/usaTier"),
+        user = require("../../fixtures/user"),
+        record = require("../../fixtures/record"),
+        course = require("../../fixtures/course"),
+        report = null;
+
+      async.waterfall([
+          function (callback) {
+            //--- Adds initial tier
+            env.intTestSetup(parentTier, childTier, course, user, record, function (err, results) {
+              report = results;
+              callback(null);
+            });
+          },
+          function (callback) {
+
+            request(app)
+              .post("/course/listTiersCourses")
+              .send(childTier)
+              .expect("Content-Type", /json/)
+              .expect(200)
+              .end(function (err, res) {
+                //assert.equal(res.body, 200);
+                callback(null);
+              });
+          }
+        ],
+        function (err, results) {
+          removeReport(report);
+          removeUser(user);
+          removeRecord(record);
+          removeCourse(course);
+          removeTier(childTier);
+          removeTier(parentTier);
           done();
         });
 

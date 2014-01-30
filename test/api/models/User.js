@@ -1,4 +1,4 @@
-var app = require("../../../index"),
+/*var app = require("../../../index"),
   assert = require("assert"),
   async = require("async"),
   request = require("supertest");
@@ -123,3 +123,5 @@ describe("Tier", function () {
 
   });
 });
+
+*/

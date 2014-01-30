@@ -1,0 +1,22 @@
+{
+  "tier": {
+    "path": "/tier/",
+    "collection": "tiers"
+  },
+  "course": {
+    "path": "/course/",
+    "collection": "courses"
+  },
+  "user": {
+    "path": "/user/",
+    "collection": "users"
+  },
+  "record": {
+    "path": "/record/",
+    "collection": "records"
+  },
+  "report": {
+    "path": "/report/",
+    "collection": "reports"
+  }
+}
