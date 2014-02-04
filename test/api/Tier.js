@@ -14,6 +14,33 @@ var removeTier = require("../helpers").removeFrom(routes.tier.collection),
 describe("Tier", function () {
   describe("POST " + routes.tier.path, function () {
 
+    it("should create a company", function (done) {
+
+      var parentTier = require("../fixtures/parentTier");
+
+      async.waterfall([
+
+          function (callback) {
+
+            request(app)
+              .post("/tier/createCompany")
+              .send(parentTier)
+              .expect("Content-Type", /json/)
+              .expect(200)
+              .end(function (err, res) {
+                assert.equal(res.body.title, parentTier.title);
+                callback(null);
+              });
+
+          }
+        ],
+        function (err, results) {
+          removeTier(parentTier);
+          done();
+        });
+
+    });
+
     it("should add a tier", function (done) {
 
       var parentTier = require("../fixtures/parentTier"),
