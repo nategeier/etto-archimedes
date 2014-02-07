@@ -39,14 +39,62 @@ describe("Tier", function () {
               .expect("Content-Type", /json/)
               .expect(200)
               .end(function (err, res) {
-
-                //assert.equal(res.body.title, usaTier.title);
+                console.log("whats----------------------", res.body);
+                //assert.equal(res.body.title, parentTier.title);
                 callback(null);
               });
 
           }
         ],
         function (err, results) {
+
+          removeReport(report);
+          removeRecord(record);
+          removeUser(user);
+          removeCourse(course);
+          removeTier(childTier);
+          removeTier(parentTier);
+          done();
+        });
+
+    });
+
+    it("should create a course record", function (done) {
+
+      var parentTier = require("../fixtures/parentTier"),
+        childTier = require("../fixtures/childTier1"),
+        user = require("../fixtures/user"),
+        record = require("../fixtures/record"),
+        course = require("../fixtures/course"),
+        report = null;
+
+      async.waterfall([
+          function (callback) {
+            //--- Adds initial tier
+            env.intTestSetup(parentTier, childTier, course, user, record, function (err, results) {
+              report = results;
+              callback(null);
+            });
+          },
+          function (callback) {
+
+            request(app)
+              .get("/record/create/" + user._id + "?courseId=" + course._id)
+              .send(parentTier)
+              .expect("Content-Type", /json/)
+              .expect(200)
+              .end(function (err, res) {
+                assert.equal(res.body._user, user._id);
+                callback(null, res.body);
+              });
+
+          }
+        ],
+        function (err, results) {
+          //--- Remove new created record
+          removeRecord(results);
+
+          //--- Remove all envirnment
 
           removeReport(report);
           removeRecord(record);
