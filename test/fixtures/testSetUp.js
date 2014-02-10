@@ -15,11 +15,41 @@ var createAndTestTier = require("../helpers").createAndTestFrom(routes.tier.coll
   createAndTestCourse = require("../helpers").createAndTestFrom(routes.course.collection),
   createAndTestRecord = require("../helpers").createAndTestFrom(routes.record.collection);
 
-module.exports.intTestSetup = function (parentTier, childTier, course, user, record, done) {
+var removeTier = require("../helpers").removeFrom(routes.tier.collection),
+  removeUser = require("../helpers").removeFrom(routes.user.collection),
+  removeCourse = require("../helpers").removeFrom(routes.course.collection),
+  removeRecord = require("../helpers").removeFrom(routes.record.collection),
+  removeReport = require("../helpers").removeFrom(routes.report.collection);
+
+var parentTier = require("./data/parentTier"),
+  childTier = require("./data/childTier1"),
+  user = require("./data/user"),
+  record = require("./data/record"),
+  course = require("./data/course"),
+  report = null;
+
+beforeEach(function (done) {
+  testSetUp(parentTier, childTier, course, user, record, function (err, results) {
+    report = results;
+    done();
+  });
+});
+
+afterEach(function () {
+  removeReport(report);
+  removeUser(user);
+  removeRecord(record);
+  removeCourse(course);
+  removeTier(childTier);
+  removeTier(parentTier);
+});
+
+var testSetUp = function (parentTier, childTier, course, user, record, done) {
 
   var report = {};
 
   async.waterfall([
+
       function (callback) {
         //--- Adds initial tier
         createAndTestTier(parentTier, function (result) {
@@ -57,7 +87,7 @@ module.exports.intTestSetup = function (parentTier, childTier, course, user, rec
       },
       function (user, callback) {
 
-        //--- Create a course
+        //--- Create a courses
         createAndTestCourse(course, function (result) {
           callback(null, course);
         });
@@ -77,12 +107,12 @@ module.exports.intTestSetup = function (parentTier, childTier, course, user, rec
 
               createAndTestReport(report, function (results) {
                 report = results;
-                callback(null, results);
+                callback(null, course);
               });
 
             },
             function (err, result) {
-              callback(null, result);
+              callback(null, course);
             });
 
         });
@@ -108,3 +138,12 @@ module.exports.intTestSetup = function (parentTier, childTier, course, user, rec
       done(err, report);
     });
 };
+
+module.exports = {
+  parentTier: parentTier,
+  childTier: childTier,
+  user: user,
+  record: record,
+  course: course,
+  report: report
+}
