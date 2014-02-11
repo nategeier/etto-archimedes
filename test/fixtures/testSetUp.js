@@ -7,46 +7,41 @@ var async = require("async"),
   mongoose = require("mongoose"),
   routes = require("../routes.json");
 
-var Tier = require("../../lib/models/Tier");
+var Tier = require("../../lib/models/Tier"),
+  Record = require("../../lib/models/Record");
 
 var createAndTestTier = require("../helpers").createAndTestFrom(routes.tier.collection),
   createAndTestReport = require("../helpers").createAndTestFrom(routes.report.collection),
   createAndTestUser = require("../helpers").createAndTestFrom(routes.user.collection),
-  createAndTestCourse = require("../helpers").createAndTestFrom(routes.course.collection),
-  createAndTestRecord = require("../helpers").createAndTestFrom(routes.record.collection);
+  createAndTestCourse = require("../helpers").createAndTestFrom(routes.course.collection);
 
 var removeTier = require("../helpers").removeFrom(routes.tier.collection),
   removeUser = require("../helpers").removeFrom(routes.user.collection),
   removeCourse = require("../helpers").removeFrom(routes.course.collection),
-  removeRecord = require("../helpers").removeFrom(routes.record.collection),
-  removeReport = require("../helpers").removeFrom(routes.report.collection);
+  removeRecord = require("../helpers").removeFrom(routes.record.collection);
 
 var parentTier = require("./data/parentTier"),
   childTier = require("./data/childTier1"),
   user = require("./data/user"),
-  record = require("./data/record"),
-  course = require("./data/course"),
-  report = null;
+  record1 = {},
+  course = require("./data/course");
 
 beforeEach(function (done) {
-  testSetUp(parentTier, childTier, course, user, record, function (err, results) {
-    report = results;
+  testSetUp(parentTier, childTier, course, user, record1, function (err, results) {
     done();
   });
 });
 
 afterEach(function () {
-  removeReport(report);
+
   removeUser(user);
-  removeRecord(record);
+  removeRecord(record1);
   removeCourse(course);
   removeTier(childTier);
   removeTier(parentTier);
 });
 
 var testSetUp = function (parentTier, childTier, course, user, record, done) {
-
-  var report = {};
 
   async.waterfall([
 
@@ -74,7 +69,7 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
       },
 
       function (callback) {
-
+        //--- Create a user in the child tier
         var _tier = childTier._id;
         if (typeof _tier === "string") {
           _tier = new mongoose.Types.ObjectId(_tier);
@@ -93,49 +88,20 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
         });
       },
       function (course, callback) {
-
-        Tier.descendants(parentTier._id, function (err, results) {
-
-          async.map(results, function (tier) {
-
-              report = {
-                _tier: tier._id,
-                _course: course._id,
-                _completed: [],
-                _notCompleted: [user._id]
-              };
-
-              createAndTestReport(report, function (results) {
-                report = results;
-                callback(null, course);
-              });
-
-            },
-            function (err, result) {
-              callback(null, course);
-            });
-
-        });
-
-      },
-      function (course, callback) {
-
         Tier.addCourseAllDescendants(parentTier._id, course._id, function (err, result) {
           callback(err);
         });
       },
       function (callback) {
-
-        record._user = user._id;
-        record._course = course._id;
-        createAndTestRecord(record, function (result) {
-          callback(null, result);
+        Record.create(user._id, course._id, function (err, results) {
+          record1 = results;
+          callback(err, results);
         });
       }
 
     ],
     function (err, results) {
-      done(err, report);
+      done(err, results);
     });
 };
 
@@ -143,7 +109,6 @@ module.exports = {
   parentTier: parentTier,
   childTier: childTier,
   user: user,
-  record: record,
-  course: course,
-  report: report
-}
+  record1: record1,
+  course: course
+};
