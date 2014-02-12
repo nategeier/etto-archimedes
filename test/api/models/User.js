@@ -20,18 +20,12 @@ describe("User", function () {
         ],
         function (err, tiers) {
 
-          console.log(tiers)
-
           User.getLowerUsers(tiers, function (err, results) {
             assert.equal(results[0].name, setup.user.name);
             done();
-
           });
-
         });
-
     });
-
   });
 });
 

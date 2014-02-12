@@ -27,13 +27,11 @@ describe("Record", function () {
     it("should get all course records in a tier", function (done) {
 
       request(app)
-        .get("/record/tier/" + setup.parentTier._id)
+        .get("/record/tierReport/" + setup.parentTier._id)
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          console.log("finalist", res.body);
-          //assert.equal(res.body._user, setup.user._id);
-          //removeRecord(res.body);
+          assert.equal(res.body.totalUsers, 1);
           done();
         });
     });

@@ -27,7 +27,6 @@ describe("Tier", function () {
           removeTier(res.body);
           done();
         });
-
     });
 
     it("should add a tier", function (done) {
@@ -61,7 +60,6 @@ describe("Tier", function () {
           assert.equal(res.body[0].totUsers, 1);
           done(null);
         });
-
     });
 
     it("should remove tier and all its children", function (done) {
@@ -75,7 +73,6 @@ describe("Tier", function () {
           assert.equal(res.body, 200);
           done();
         });
-
     });
 
     it("should list all courses in tier", function (done) {
@@ -89,8 +86,6 @@ describe("Tier", function () {
           assert.equal(res.body._courses[0].title, setup.course.title);
           done();
         });
-
     });
-
   });
 });

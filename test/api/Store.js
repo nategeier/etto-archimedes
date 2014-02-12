@@ -4,10 +4,10 @@ var app = require("../../index"),
   request = require("supertest"),
   routes = require("../routes.json"),
   setup = require("../fixtures/testSetUp");
-
+/*
 describe("Tier", function () {
   describe("POST " + routes.record.path, function () {
-    /*
+
     it("should purchase a course", function (done) {
 
       var order = {
@@ -42,11 +42,11 @@ describe("Tier", function () {
         .expect(200)
         .end(function (err, res) {
           console.log("-----------anything", res.body);
-          //assert.equal(res.body.title, usaTier.title);
+          assert.equal(res.body[0], 1);
           done();
         });
 
     });
-*/
   });
 });
+*/
