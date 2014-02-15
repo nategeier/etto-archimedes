@@ -6,7 +6,7 @@ var app = require("../../index"),
   routes = require("../routes.json"),
   setup = require("../fixtures/testSetUp");
 
-//var removeUser = require("../helpers").removeFrom(routes.user.collection);
+var removeUser = require("../helpers").removeFrom(routes.user.collection);
 
 describe("Tier", function () {
   describe("POST " + routes.tier.path, function () {
@@ -34,6 +34,36 @@ describe("Tier", function () {
         .expect(200)
         .end(function (err, res) {
           assert.equal(res.body.name, setup.user.name);
+          done();
+        });
+    });
+
+    it("should invite a user info", function (done) {
+
+      var newUser = {
+        __v: 0,
+        email: "nate@interactivebalance.com",
+        _tier: setup.childTier._id,
+        auth: {
+          canInvite: true,
+          canGetCourses: false,
+          canCreateCourses: false,
+          canPurchase: false
+        },
+        meta: {
+          votes: 1,
+          favs: 1
+        }
+      };
+
+      request(app)
+        .post("/user/inviteUser")
+        .send(newUser)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body.name, newUser.name);
+          removeUser(res.body);
           done();
         });
     });

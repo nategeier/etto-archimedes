@@ -6,7 +6,7 @@ var assert = require("assert"),
 var Tier = require("../../../lib/models/Tier"),
   User = require("../../../lib/models/User");
 
-describe("Tier", function () {
+describe("Tier modal", function () {
   describe("POST " + routes.tier.path, function () {
 
     it("should list all decendents", function (done) {

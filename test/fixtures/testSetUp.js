@@ -56,6 +56,7 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
       function (parentTier, callback) {
 
         childTier.parent = parentTier._id;
+        childTier._company = parentTier._id;
 
         //--- Adds child tier, need to go to controller to handle popping in the ancesstors
         request(app)

@@ -49,6 +49,20 @@ describe("Tier", function () {
         });
     });
 
+    it("should add a course to a tier", function (done) {
+
+      request(app)
+        .get("/tier/addCourseToTier/" +
+          setup.parentTier._id + "?courseId=" + setup.course._id + "&addAllLowerTiers=true")
+        .expect("Content-Type", /json/)
+        .expect(201)
+        .end(function (err, res) {
+          //assert.equal(res.body[0].totUsers, 1);
+          done();
+        });
+
+    });
+
     it("should list all children and counts users and all tiers", function (done) {
 
       request(app)
@@ -78,12 +92,11 @@ describe("Tier", function () {
     it("should list all courses in tier", function (done) {
 
       request(app)
-        .post("/course/listTiersCourses")
-        .send(setup.childTier)
+        .get("/course/listTiersCourses/" + setup.childTier._id)
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          assert.equal(res.body._courses[0].title, setup.course.title);
+          assert.equal(res.body[0].title, setup.course.title);
           done();
         });
     });
