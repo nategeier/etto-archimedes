@@ -21,10 +21,8 @@ describe("User", function () {
           function (tiers, callback) {
             User.getLowerUsers(tiers, function (err, users) {
               callback(err, users);
-
             });
           }
-
         ],
         function (err, users) {
 
