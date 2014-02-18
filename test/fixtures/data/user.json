@@ -1,10 +1,11 @@
 {
   "name": "Joe",
-  "email": "nate@nate.com",
+  "email": ["nate@nate.com"],
   "enabled": true,
   "meta": {
     "votes": 1,
     "favs": 1
   },
-  "salt": "String"
+  "username": "rockingnate",
+  "password": "wehe9999"
 }

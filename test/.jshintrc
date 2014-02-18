@@ -22,6 +22,8 @@
   "globals": {
     "_": false,
     "it": false,
-    "describe": false
+    "describe": false,
+    "beforeEach": false,
+    "afterEach": false
   }
 }

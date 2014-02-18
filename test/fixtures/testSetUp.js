@@ -7,21 +7,47 @@ var async = require("async"),
   mongoose = require("mongoose"),
   routes = require("../routes.json");
 
-var Tier = require("../../lib/models/Tier");
+var Tier = require("../../lib/models/Tier"),
+  Record = require("../../lib/models/Record");
 
 var createAndTestTier = require("../helpers").createAndTestFrom(routes.tier.collection),
   createAndTestReport = require("../helpers").createAndTestFrom(routes.report.collection),
   createAndTestUser = require("../helpers").createAndTestFrom(routes.user.collection),
-  createAndTestCourse = require("../helpers").createAndTestFrom(routes.course.collection),
-  createAndTestRecord = require("../helpers").createAndTestFrom(routes.record.collection);
+  createAndTestCourse = require("../helpers").createAndTestFrom(routes.course.collection);
 
-module.exports.intTestSetup = function (parentTier, childTier, course, user, record, done) {
+var removeTier = require("../helpers").removeFrom(routes.tier.collection),
+  removeUser = require("../helpers").removeFrom(routes.user.collection),
+  removeCourse = require("../helpers").removeFrom(routes.course.collection),
+  removeRecord = require("../helpers").removeFrom(routes.record.collection);
 
-  var report = {};
+var parentTier = require("./data/parentTier"),
+  childTier = require("./data/childTier1"),
+  user = require("./data/user"),
+  record1 = {},
+  course = require("./data/course");
+
+beforeEach(function (done) {
+  testSetUp(parentTier, childTier, course, user, record1, function (err, results) {
+    done();
+  });
+});
+
+afterEach(function () {
+
+  removeUser(user);
+  removeRecord(record1);
+  removeCourse(course);
+  removeTier(childTier);
+  removeTier(parentTier);
+});
+
+var testSetUp = function (parentTier, childTier, course, user, record, done) {
 
   async.waterfall([
+
       function (callback) {
         //--- Adds initial tier
+
         createAndTestTier(parentTier, function (result) {
           parentTier = result;
           callback(null, result);
@@ -30,6 +56,7 @@ module.exports.intTestSetup = function (parentTier, childTier, course, user, rec
       function (parentTier, callback) {
 
         childTier.parent = parentTier._id;
+        childTier._company = parentTier._id;
 
         //--- Adds child tier, need to go to controller to handle popping in the ancesstors
         request(app)
@@ -44,12 +71,14 @@ module.exports.intTestSetup = function (parentTier, childTier, course, user, rec
       },
 
       function (callback) {
-
+        //--- Create a user in the child tier
         var _tier = childTier._id;
         if (typeof _tier === "string") {
           _tier = new mongoose.Types.ObjectId(_tier);
         }
         user._tier = _tier;
+        user._company = parentTier._id;
+
         createAndTestUser(user, function (result) {
           user = result;
           callback(null, user);
@@ -57,54 +86,34 @@ module.exports.intTestSetup = function (parentTier, childTier, course, user, rec
       },
       function (user, callback) {
 
-        //--- Create a course
+        //--- Create a courses
         createAndTestCourse(course, function (result) {
           callback(null, course);
         });
       },
       function (course, callback) {
-
-        Tier.descendants(parentTier._id, function (err, results) {
-
-          async.map(results, function (tier) {
-
-              report = {
-                _tier: tier._id,
-                _course: course._id,
-                _completed: [],
-                _notCompleted: [user._id]
-              };
-
-              createAndTestReport(report, function (results) {
-                report = results;
-                callback(null, results);
-              });
-
-            },
-            function (err, result) {
-              callback(null, result);
-            });
-
-        });
-
-      },
-      function (course, callback) {
-
         Tier.addCourseAllDescendants(parentTier._id, course._id, function (err, result) {
           callback(err);
         });
       },
       function (callback) {
 
-        record._user = user._id;
-        record._course = course._id;
-        createAndTestRecord(record, function (result) {
-          callback(null, result);
+        Record.create(user._id, course._id, function (err, results) {
+          record1 = results;
+          callback(err, results);
         });
       }
 
     ],
     function (err, results) {
-      done(err, report);
+      done(err, results);
     });
+};
+
+module.exports = {
+  parentTier: parentTier,
+  childTier: childTier,
+  user: user,
+  record1: record1,
+  course: course
 };
