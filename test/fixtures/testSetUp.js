@@ -26,35 +26,18 @@ var parentTier = require("./data/parentTier"),
   record1 = {},
   course = require("./data/course");
 
-beforeEach(function (done) {
-  testSetUp(parentTier, childTier, course, user, record1, function (err, results) {
-    done();
-  });
-});
-
-afterEach(function () {
-
-  removeUser(user);
-  removeRecord(record1);
-  removeCourse(course);
-  removeTier(childTier);
-  removeTier(parentTier);
-});
-
 var testSetUp = function (parentTier, childTier, course, user, record, done) {
 
   async.waterfall([
 
       function (callback) {
         //--- Adds initial tier
-
         createAndTestTier(parentTier, function (result) {
           parentTier = result;
           callback(null, result);
         });
       },
       function (parentTier, callback) {
-
         childTier.parent = parentTier._id;
         childTier._company = parentTier._id;
 
@@ -76,6 +59,7 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
         if (typeof _tier === "string") {
           _tier = new mongoose.Types.ObjectId(_tier);
         }
+
         user._tier = _tier;
         user._company = parentTier._id;
 
@@ -85,7 +69,6 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
         });
       },
       function (user, callback) {
-
         //--- Create a courses
         createAndTestCourse(course, function (result) {
           callback(null, course);
@@ -97,11 +80,15 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
         });
       },
       function (callback) {
+        request(app)
+          .get("/record/create/" + user._id + "?courseId=" + course._id)
+          .expect("Content-Type", /json/)
+          .expect(200)
+          .end(function (err, res) {
+            record1 = res.body;
+            callback(null);
+          });
 
-        Record.create(user._id, course._id, function (err, results) {
-          record1 = results;
-          callback(err, results);
-        });
       }
 
     ],
@@ -109,6 +96,21 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
       done(err, results);
     });
 };
+
+beforeEach(function (done) {
+  testSetUp(parentTier, childTier, course, user, record1, function (err, results) {
+    done();
+  });
+});
+
+afterEach(function () {
+
+  removeUser(user);
+  removeRecord(record1);
+  removeCourse(course);
+  removeTier(childTier);
+  removeTier(parentTier);
+});
 
 module.exports = {
   parentTier: parentTier,
