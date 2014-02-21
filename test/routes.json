@@ -18,5 +18,9 @@
   "report": {
     "path": "/report/",
     "collection": "reports"
+  },
+  "subscription": {
+    "path": "/subscription/",
+    "collection": "subscriptions"
   }
 }
