@@ -26,7 +26,7 @@ var parentTier = require("./data/parentTier"),
   record1 = {},
   course = require("./data/course");
 
-var testSetUp = function (parentTier, childTier, course, user, record, done) {
+var testSetUp = function (parentTier, childTier, course, user, record1, done) {
 
   async.waterfall([
 
@@ -62,7 +62,6 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
 
         user._tier = _tier;
         user._company = parentTier._id;
-
         createAndTestUser(user, function (result) {
           user = result;
           callback(null, user);
@@ -70,6 +69,9 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
       },
       function (user, callback) {
         //--- Create a courses
+
+        course._creator = parentTier._id;
+
         createAndTestCourse(course, function (result) {
           callback(null, course);
         });
@@ -86,9 +88,8 @@ var testSetUp = function (parentTier, childTier, course, user, record, done) {
           .expect(200)
           .end(function (err, res) {
             record1 = res.body;
-            callback(null);
+            callback(null, null);
           });
-
       }
 
     ],

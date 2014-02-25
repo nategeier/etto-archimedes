@@ -23,18 +23,20 @@ describe("Record", function () {
           done();
         });
     });
-
-    it("should get all course records in a tier", function (done) {
-
+    /*
+    it("should update a records bookmark", function (done) {
+      console.log(setup.record1)
       request(app)
-        .get("/record/tierReport/" + setup.parentTier._id)
+        .get("/record/updateBookmark/" + setup.record1._id + "?bookmark=4&totalBlocks=10")
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          assert.equal(res.body.totalUsers, 1);
+          console.log(res.body);
+          assert.equal(res.body, 1);
           done();
         });
     });
+    */
 
   });
 });

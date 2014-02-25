@@ -10,6 +10,7 @@ var removeSubscription = require("../helpers").removeFrom(routes.subscription.co
 
 describe("Tier", function () {
   describe("POST " + routes.subscription.path, function () {
+
     /*
     it("should purchase a course", function (done) {
 
@@ -37,7 +38,6 @@ describe("Tier", function () {
           "_id": setup.childTier._id
         }]
       };
-
       request(app)
         .post("/store/purchase")
         .send(order)
@@ -66,4 +66,4 @@ describe("Tier", function () {
     });
 */
   });
-})
+});
