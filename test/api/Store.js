@@ -3,11 +3,15 @@ var app = require("../../index"),
   async = require("async"),
   request = require("supertest"),
   routes = require("../routes.json"),
+  subscriptionData = require("../../lib/factories/subscription"),
   setup = require("../fixtures/testSetUp");
-/*
-describe("Tier", function () {
-  describe("POST " + routes.record.path, function () {
 
+var removeSubscription = require("../helpers").removeFrom(routes.subscription.collection);
+
+describe("Tier", function () {
+  describe("POST " + routes.subscription.path, function () {
+
+    /*
     it("should purchase a course", function (done) {
 
       var order = {
@@ -34,19 +38,32 @@ describe("Tier", function () {
           "_id": setup.childTier._id
         }]
       };
-
       request(app)
         .post("/store/purchase")
         .send(order)
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          console.log("-----------anything", res.body);
-          assert.equal(res.body[0], 1);
+
+        });
+`
+    });
+    */
+    /*
+    it("should list all subscriptions", function (done) {
+
+      request(app)
+        .get("/store/getSubscriptions")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          //console.log(res.body, subscriptionData)
+          assert.equal(res.body, []);
+          removeSubscription(res.body);
           done();
         });
 
     });
+*/
   });
 });
-*/

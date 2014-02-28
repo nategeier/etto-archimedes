@@ -1,4 +1,4 @@
-var assert = require("assert"),
+/*var assert = require("assert"),
   async = require("async"),
   routes = require("../../routes.json"),
   setup = require("../../fixtures/testSetUp");
@@ -35,3 +35,4 @@ describe("User", function () {
 
   });
 });
+*/
