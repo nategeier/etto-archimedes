@@ -15,6 +15,10 @@ html
           if locals.structure
             each file in structure
               if file
+                - if (file.source.dir !== lastDir )
+                  .section.seperator
+                    p.title= file.source.dir
+                - lastDir = file.source.dir
                 .section(class= (currentFile === file.source.full) ? 'active':'')
                   if file.methods
                     if file.link

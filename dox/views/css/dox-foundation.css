@@ -7,6 +7,18 @@ h1.page-title small {
 #nav .section.active .title {
   background: #ddd;
 }
+#nav .section.seperator {
+  background: #bbb;
+}
+#nav .section.seperator .title {
+  padding: 0.3em 0.6em;
+  background: #bbb;
+  border: 0;
+  border-bottom: 1px solid #888;
+}
+#nav .section.seperator .title:hover {
+  background: #bbb;
+}
 #nav .section .title {
   background-color: #eee;
 }
