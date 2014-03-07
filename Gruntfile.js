@@ -52,6 +52,13 @@ module.exports = function (grunt) {
         src: ["test/**/*.{coffee,js}"],
       },
     },
+    _mochacov: {
+      options: {
+        reporter: "html-cov",
+        output: "coverage/report.html"
+      },
+      all: ["test/**/*.{coffee,js}"],
+    },
     dox: {
       options: {
         template: "dox/views/template.jade",
@@ -108,6 +115,8 @@ module.exports = function (grunt) {
   // Rename watch task so the environment can be changed to `test` before watching
   grunt.renameTask("watch", "_watch");
   grunt.registerTask("watch", ["env:test", "_watch:js"]);
+  grunt.renameTask("mochacov", "_mochacov");
+  grunt.registerTask("mochacov", ["env:test", "_mochacov"]);
 
   grunt.registerTask("serve", function (target) {
     if (target === "dox") {
@@ -120,4 +129,5 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask("default", ["env:test", "jshint", "jsbeautifier:verify", "mochaTest"]);
+  grunt.registerTask("coverage", ["mochacov"]);
 };
