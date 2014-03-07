@@ -60,6 +60,14 @@ The generated `docs` directory is ignored by git, so avoid making any edits ther
 
 Launches a livereload server on port 8080 and watches for code changes.
 
+### Generate Code Coverage Report
+
+    grunt coverage
+
+Generates a code coverage report at `coverage/report.html`
+
+Aim for 100%!
+
 Etcetera
 -------------------------------------------------------------------------------
 
