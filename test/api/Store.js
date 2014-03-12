@@ -11,8 +11,11 @@ var removeSubscription = require("../helpers").removeFrom(routes.subscription.co
 describe("Tier", function () {
   describe("POST " + routes.subscription.path, function () {
 
-    /*
     it("should purchase a course", function (done) {
+      this.timeout(4000);
+
+      setup.user._tier = {};
+      setup.user._tier._company = setup.parentTier._id;
 
       var order = {
         "course": {
@@ -20,6 +23,8 @@ describe("Tier", function () {
           "_id": setup.course._id
         },
         "user": setup.user,
+        "subscription": null,
+        "addedCredits": "66.00",
         "card": {
           "number": "4242424242424242",
           "exp_month": "10",
@@ -44,26 +49,32 @@ describe("Tier", function () {
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-
+          assert.equal(err, null);
+          done();
         });
-`
     });
-    */
-    /*
-    it("should list all subscriptions", function (done) {
 
+    it("should list all credits of a tier", function (done) {
       request(app)
-        .get("/store/getSubscriptions")
+        .get("/store/findCredit/" + setup.parentTier._id)
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          //console.log(res.body, subscriptionData)
-          assert.equal(res.body, []);
-          removeSubscription(res.body);
+          assert.equal(res.body.credits, 200);
           done();
         });
-
     });
-*/
+
+    it("should list all credits of a tier", function (done) {
+      request(app)
+        .get("/store/findCredit/" + setup.parentTier._id)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body.credits, 200);
+          done();
+        });
+    });
+
   });
 });

@@ -1,0 +1,14 @@
+{
+  "tierTitle": "tracktown",
+  "name": "Jack",
+  "email": "jj@jjjjjjj1232.com",
+  "username": "longmanchoo",
+  "password": "secrithidden",
+  "_tier": "531f3d83184593f0116af534",
+  "auth": {
+    "canPurchase": true,
+    "canCreateCourses": true,
+    "canGetCourses": true,
+    "canInvite": true
+  }
+}
