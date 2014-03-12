@@ -11,6 +11,18 @@ var removeTier = require("../helpers").removeFrom(routes.tier.collection);
 describe("Tier", function () {
   describe("POST " + routes.tier.path, function () {
 
+    it("should find a tier", function (done) {
+
+      request(app)
+        .get("/tier/" + setup.parentTier._id)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body.title, setup.parentTier.title);
+          done(null);
+        });
+    });
+
     it("should create a company", function (done) {
 
       var newCompany = {
@@ -57,10 +69,35 @@ describe("Tier", function () {
         .expect("Content-Type", /json/)
         .expect(201)
         .end(function (err, res) {
-          //assert.equal(res.body[0].totUsers, 1);
+          assert.equal(res.body, 201);
           done();
         });
+    });
 
+    it("should remove a course to a tier", function (done) {
+
+      request(app)
+        .get("/tier/removeCourseFromTiers/" +
+          setup.parentTier._id + "?courseId=" + setup.course._id + "&addAllLowerTiers=true")
+        .expect("Content-Type", /json/)
+        .expect(201)
+        .end(function (err, res) {
+          assert.equal(res.body, 201);
+          done();
+        });
+    });
+
+    it("should update a tier", function (done) {
+
+      request(app)
+        .post("/tier/update/")
+        .send(setup.parentTier)
+        .expect("Content-Type", /json/)
+        .expect(201)
+        .end(function (err, res) {
+          assert.equal(res.body.title, setup.parentTier.title);
+          done();
+        });
     });
 
     it("should list all children and counts users and all tiers", function (done) {

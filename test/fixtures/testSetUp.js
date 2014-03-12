@@ -7,11 +7,9 @@ var async = require("async"),
   mongoose = require("mongoose"),
   routes = require("../routes.json");
 
-var Tier = require("../../lib/models/Tier"),
-  Record = require("../../lib/models/Record");
+var Tier = require("../../lib/models/Tier");
 
 var createAndTestTier = require("../helpers").createAndTestFrom(routes.tier.collection),
-  createAndTestReport = require("../helpers").createAndTestFrom(routes.report.collection),
   createAndTestUser = require("../helpers").createAndTestFrom(routes.user.collection),
   createAndTestCourse = require("../helpers").createAndTestFrom(routes.course.collection);
 
@@ -23,7 +21,7 @@ var removeTier = require("../helpers").removeFrom(routes.tier.collection),
 var parentTier = require("./data/parentTier"),
   childTier = require("./data/childTier1"),
   user = require("./data/user"),
-  record1 = {},
+  record1 = require("./data/record"),
   course = require("./data/course");
 
 var testSetUp = function (parentTier, childTier, course, user, record1, done) {
@@ -80,31 +78,25 @@ var testSetUp = function (parentTier, childTier, course, user, record1, done) {
         Tier.addCourseAllDescendants(parentTier._id, course._id, function (err, result) {
           callback(err);
         });
-      },
-      function (callback) {
-        request(app)
-          .get("/record/create/" + user._id + "?courseId=" + course._id)
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .end(function (err, res) {
-            record1 = res.body;
-            callback(null, null);
-          });
       }
 
     ],
     function (err, results) {
+      //console.log("final------------", record1)
       done(err, results);
     });
 };
 
 beforeEach(function (done) {
   testSetUp(parentTier, childTier, course, user, record1, function (err, results) {
+    //record1 = results;
+    //console.log("record1------------", results)
     done();
   });
 });
 
 afterEach(function () {
+  //console.log("after delete", record1)
 
   removeUser(user);
   removeRecord(record1);

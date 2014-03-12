@@ -59,6 +59,7 @@ describe("Tier modal", function () {
     it("should list all tiers with a course", function (done) {
 
       async.waterfall([
+
           function (callback) {
             Tier.descendants(setup.parentTier._id, function (err, tiers) {
               callback(err, tiers);
@@ -74,7 +75,7 @@ describe("Tier modal", function () {
         });
 
     });
-
+    /*
     it("should get all users within tiers array", function (done) {
 
       async.waterfall([
@@ -84,7 +85,6 @@ describe("Tier modal", function () {
               callback(err, tiers);
             });
           }
-
         ],
         function (err, tiers) {
 
@@ -95,5 +95,6 @@ describe("Tier modal", function () {
         });
 
     });
+    */
   });
 });
