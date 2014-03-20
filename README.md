@@ -21,6 +21,15 @@ A fifth `local.json` file may also be created and is ignored by git.
 These files setup various settings used throughout the backend, such as
 Mongo and Redis connection configuration.
 
+Seed the Database
+-------------------------------------------------------------------------------
+
+Fresh dev environments have some seed data that needs added to MongoDB:
+
+```sh
+$ mongoimport --db etto-dev --collection subscriptions --file ./data/dump/etto-dev/subscriptions.json
+```
+
 Grunt Tasks
 -------------------------------------------------------------------------------
 

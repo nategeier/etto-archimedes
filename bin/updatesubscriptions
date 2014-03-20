@@ -1,0 +1,92 @@
+#!/usr/bin/env node
+
+"use strict";
+
+var exec = require("child_process").exec,
+  async = require("async"),
+  config = require("../lib/server/config"),
+  stripe = require("stripe")(config.get("stripe:secret")),
+  Subscription = require("../lib/models/Subscription"),
+  mongoose = require("../lib/db");
+
+var newSubscriptions = require("../config/seeds/subscription");
+
+
+function removeMongoSubscriptions(done) {
+  Subscription.remove(function (err) {
+    done(err);
+  });
+}
+
+function removeStripeSubscriptions(done) {
+  var plans;
+
+  function noStripePlans() { return (plans && plans.count === 0) ? true : false; }
+
+  function listAndDel(doneListAndDel) {
+    stripe.plans.list({
+      count: 100
+    }, function (err, fetchedplans) {
+      plans = fetchedplans;
+      async.each(plans.data, function (plan, doneEach) {
+        stripe.plans.del(plan.id, function (err) {
+          doneEach(err);
+        });
+      }, function () {
+        doneListAndDel(err);
+      });
+    });
+  }
+
+  async.until(noStripePlans, listAndDel, function (err) {
+    done(err);
+  });
+}
+
+function addMongoSubscriptions(done) {
+  async.map(newSubscriptions, function (newSubscription, callback) {
+    var subscription = new Subscription(newSubscription);
+    subscription.save(function (err, results) {
+      callback(err, results);
+    });
+  }, function (err, results) {
+    done(err, results);
+  });
+}
+
+function addStripeSubdscriptions(subscriptionTypes, done) {
+  async.map(subscriptionTypes, function (subscriptionType, callback) {
+    async.map(subscriptionType.subscriptions, function (subscription, callback) {
+      var title = subscriptionType.title + " " + subscription.courseRange.low + "-" + subscription.courseRange.high;
+
+      stripe.plans.create({
+        amount: Number(subscription.price) * 100,
+        interval: "month",
+        name: title,
+        currency: "usd",
+        id: String(subscription._id)
+      }, function (err, plan) {
+        // asynchronously called
+        callback(err, plan);
+      });
+    }, function (err, results) {
+      callback(err, results);
+    });
+  }, function (err) {
+    done(err, subscriptionTypes);
+  });
+}
+
+async.waterfall([
+  removeMongoSubscriptions,
+  removeStripeSubscriptions,
+  addMongoSubscriptions,
+  addStripeSubdscriptions,
+], function (err) {
+  if (err) {
+    return console.log("Error:", err);
+  }
+
+  mongoose.disconnect();
+  exec("mongoexport --db etto-dev --collection subscriptions --out ./data/dump/etto-dev/subscriptions.json");
+});
