@@ -3,7 +3,6 @@ var app = require("../../index"),
   async = require("async"),
   request = require("supertest"),
   routes = require("../routes.json"),
-  subscriptionData = require("../../lib/factories/subscription"),
   setup = require("../fixtures/testSetUp");
 
 var removeSubscription = require("../helpers").removeFrom(routes.subscription.collection);
