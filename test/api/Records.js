@@ -12,7 +12,7 @@ var removeRecord = require("../helpers").removeFrom(routes.record.collection);
 
 describe("Record", function () {
   describe("POST " + routes.record.path, function () {
-
+    /*
     it("should create a course record and update the record", function (done) {
 
       async.waterfall([
@@ -44,8 +44,8 @@ describe("Record", function () {
         function (err, results) {
           done();
         });
-
     });
+    */
 
     it("should git all record report for a tier", function (done) {
 
