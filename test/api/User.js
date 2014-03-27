@@ -40,6 +40,7 @@ describe("Tier", function () {
         });
     });
 
+    /*
     it("should list all details of a user", function (done) {
       request(app)
         .get("/user/fullDetails/" + setup.user._id)
@@ -51,7 +52,7 @@ describe("Tier", function () {
         });
     });
 
-    /*
+    
     it("should update users info", function (done) {
 
       setup.user.username = "newname";

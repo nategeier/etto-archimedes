@@ -12,8 +12,8 @@ var removeRecord = require("../helpers").removeFrom(routes.record.collection);
 
 describe("Record", function () {
   describe("POST " + routes.record.path, function () {
-    /*
-    it("should create a course record and update the record", function (done) {
+
+    it("should create, update and get a users overall records", function (done) {
 
       async.waterfall([
 
@@ -30,22 +30,32 @@ describe("Record", function () {
           },
           function (record, callback) {
             request(app)
-              .get("/record/updateBookmark/" + record._id + "?bookmark=4&totalBlocks=10")
+              .get("/record/updateBookmark/" + record._id + "?bookmark=10&totalBlocks=10")
               .expect("Content-Type", /json/)
               .expect(200)
               .end(function (err, res) {
-                console.log(res.body);
-                assert.equal(res.body, 200);
-                done();
+                assert.equal(res.body._user, setup.user._id);
+                callback(null, record);
+              });
+          },
+          function (record, callback) {
+            request(app)
+              .get("/record/userOverallProgress/" + setup.user._id + "?tierId=" + setup.childTier._id)
+              .expect("Content-Type", /json/)
+              .expect(200)
+              .end(function (err, res) {
+                assert.equal(res.body.overallPercent, 100);
+                callback(null, record);
               });
           }
 
         ],
         function (err, results) {
+          removeRecord(results);
           done();
         });
+
     });
-    */
 
     it("should git all record report for a tier", function (done) {
 
@@ -57,7 +67,6 @@ describe("Record", function () {
           assert.equal(res.body.totalUsers, 1);
           done();
         });
-
     });
   });
 });
