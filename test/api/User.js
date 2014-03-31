@@ -26,6 +26,7 @@ describe("Tier", function () {
     });
 
     it("should save a new user", function (done) {
+      Jack.code = "ettoCourse";
 
       request(app)
         .post("/user/saveNewUser")
@@ -33,7 +34,6 @@ describe("Tier", function () {
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-
           assert.equal(res.body.name, Jack.name);
           removeUser(res.body);
           done();
