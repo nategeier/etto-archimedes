@@ -9,8 +9,7 @@ var exec = require("child_process").exec,
   Subscription = require("../lib/models/Subscription"),
   mongoose = require("../lib/db");
 
-var newSubscriptions = require("../config/seeds/subscription");
-
+var newSubscriptions = require("../config/seeds/subscriptions");
 
 function removeMongoSubscriptions(done) {
   Subscription.remove(function (err) {
@@ -21,7 +20,9 @@ function removeMongoSubscriptions(done) {
 function removeStripeSubscriptions(done) {
   var plans;
 
-  function noStripePlans() { return (plans && plans.count === 0) ? true : false; }
+  function noStripePlans() {
+    return (plans && plans.count === 0) ? true : false;
+  }
 
   function listAndDel(doneListAndDel) {
     stripe.plans.list({
