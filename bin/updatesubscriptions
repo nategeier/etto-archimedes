@@ -28,6 +28,10 @@ function removeStripeSubscriptions(done) {
     stripe.plans.list({
       count: 100
     }, function (err, fetchedplans) {
+      if (err) {
+        done(err);
+      }
+
       plans = fetchedplans;
       async.each(plans.data, function (plan, doneEach) {
         stripe.plans.del(plan.id, function (err) {
