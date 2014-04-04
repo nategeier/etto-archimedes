@@ -1,4 +1,5 @@
 {
+  "isBeta": true,
   "name": "Joe",
   "email": ["nate@nate.com"],
   "enabled": true,
