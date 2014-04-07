@@ -28,7 +28,8 @@
     "mongoose": "~3.8.7",
     "aws-sdk": "~2.0.0-rc11",
     "underscore": "~1.6.0",
-    "mongoose-text-search": "0.0.2"
+    "mongoose-text-search": "0.0.2",
+    "lodash": "~2.4.1"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
