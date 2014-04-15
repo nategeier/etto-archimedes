@@ -2,17 +2,17 @@
   "name": "etto-archimedes",
   "version": "0.0.0",
   "description": "Coursetto backend, TDD style",
-  "author": "Coursetto",
+  "author": "Coursetto Inc. <admin@coursetto.com>",
   "license": "Private",
   "private": true,
   "main": "index.js",
   "scripts": {
-    "start": "NODE_ENV=production node index.js",
+    "start": "node index.js",
     "test": "grunt"
   },
   "dependencies": {
     "express": "~3.4.7",
-    "connect-redis": "~1.4.6",
+    "connect-mongo": "~0.4.0",
     "npmlog": "0.0.6",
     "nconf": "~0.6.9",
     "nodemailer": "~0.6.0",
@@ -53,5 +53,9 @@
       ],
       "loader": "./node-loaders/coffee-script"
     }
+  },
+  "subdomain": "archimedes",
+  "engines": {
+    "node": "0.10.x"
   }
 }
