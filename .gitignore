@@ -49,3 +49,4 @@ docs
 # local
 ########################
 config/local.json
+config/jitsu.json
