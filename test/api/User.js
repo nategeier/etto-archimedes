@@ -12,7 +12,7 @@ var removeUser = require("../helpers").removeFrom(routes.user.collection);
 
 describe("User", function () {
   describe("POST " + routes.user.path, function () {
-    /*
+
     it("should list users in a tier", function (done) {
 
       request(app)
@@ -39,39 +39,6 @@ describe("User", function () {
           done();
         });
     });
-
-    it("should update users info", function (done) {
-
-      setup.user.username = "newname";
-
-      request(app)
-        .post("/user/update_users_tier")
-        .send(setup.user)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
-          assert.equal(res.body.name, setup.user.name);
-          done();
-        });
-    });
-
-    it("should upate a user", function (done) {
-
-      var newName = "bill"
-      setup.user.name = newName;
-
-      request(app)
-        .post("/user/update")
-        .send(setup.user)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
-          assert.equal(res.body.name, newName);
-          done();
-        });
-    });
-    */
-
     /*
     // Need to fuigure out how to set session to be able to view
     it("should list all details of a user", function (done) {
@@ -105,6 +72,36 @@ describe("User", function () {
         });
     });
     */
+    it("should update users info", function (done) {
+
+      setup.user.username = "newname";
+
+      request(app)
+        .post("/user/update_users_tier")
+        .send(setup.user)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body.name, setup.user.name);
+          done();
+        });
+    });
+
+    it("should upate a user", function (done) {
+
+      var newName = "bill"
+      setup.user.name = newName;
+
+      request(app)
+        .post("/user/update")
+        .send(setup.user)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body.name, newName);
+          done();
+        });
+    });
 
     /*
     it("should invite a user info", function (done) {
