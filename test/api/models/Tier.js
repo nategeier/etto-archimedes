@@ -1,4 +1,4 @@
-var assert = require("assert"),
+/*var assert = require("assert"),
   routes = require("../../routes.json"),
   async = require("async"),
   setup = require("../../fixtures/testSetUp");
@@ -75,26 +75,7 @@ describe("Tier modal", function () {
         });
 
     });
-    /*
-    it("should get all users within tiers array", function (done) {
-
-      async.waterfall([
-
-          function (callback) {
-            Tier.descendants(setup.parentTier._id, function (err, tiers) {
-              callback(err, tiers);
-            });
-          }
-        ],
-        function (err, tiers) {
-
-          User.getUsersInTiers(tiers, function (err, results) {
-            //assert.equal(results[0].title, setup.childTier.title);
-            done();
-          });
-        });
-
-    });
-    */
   });
 });
+
+*/

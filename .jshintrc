@@ -21,6 +21,8 @@
   "jquery": true,
   "globals": {
     "beforeEach": false,
-    "afterEach": false
+    "afterEach": false,
+    "before": false,
+    "after": false
   }
 }

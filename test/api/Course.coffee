@@ -3,6 +3,8 @@ app = require "../../index"
 assert = require "assert"
 request = require "supertest"
 
+
+
 # Route settings
 route =
   path: "/course/"
@@ -11,6 +13,7 @@ route =
 # Setup helper functions
 createAndTest = require("../helpers").createAndTestFrom(route.collection)
 remove = require("../helpers").removeFrom(route.collection)
+setup = require("../fixtures/testSetUp")
 
 # Data for tests
 invalidId = "000000000000000000000000"
@@ -38,6 +41,16 @@ describe "Course", ->
             assert.equal isInList, true
             remove course
             done()
+
+  describe "GET " + route.path + "listCompanyCreatedCourses/:id", ->
+    it "should return an array of all created courses", (done) ->
+      request(app)
+        .get(route.path + "listCompanyCreatedCourses/" + setup.parentTier._id)
+        .expect(200)
+        .end (err, res) ->
+          console.log "ok sir", res.text
+          done()
+
 
   describe "GET " + route.path + ":id", ->
     describe "when requesting with a valid id", ->

@@ -74,32 +74,6 @@ describe("Tier", function () {
         });
     });
 
-    it("should remove a course to a tier", function (done) {
-
-      request(app)
-        .get("/tier/removeCourseFromTiers/" +
-          setup.parentTier._id + "?courseId=" + setup.course._id + "&addAllLowerTiers=true")
-        .expect("Content-Type", /json/)
-        .expect(201)
-        .end(function (err, res) {
-          assert.equal(res.body, 201);
-          done();
-        });
-    });
-
-    it("should update a tier", function (done) {
-
-      request(app)
-        .post("/tier/update/")
-        .send(setup.parentTier)
-        .expect("Content-Type", /json/)
-        .expect(201)
-        .end(function (err, res) {
-          assert.equal(res.body.title, setup.parentTier.title);
-          done();
-        });
-    });
-
     it("should list all children and counts users and all tiers", function (done) {
 
       request(app)
@@ -110,19 +84,6 @@ describe("Tier", function () {
         .end(function (err, res) {
           assert.equal(res.body[0].totUsers, 1);
           done(null);
-        });
-    });
-
-    it("should remove tier and all its children", function (done) {
-
-      request(app)
-        .post("/tier/remove")
-        .send(setup.parentTier)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
-          assert.equal(res.body, 200);
-          done();
         });
     });
 
@@ -137,5 +98,49 @@ describe("Tier", function () {
           done();
         });
     });
+
+    /*
+    it("should remove a course from a tier", function (done) {
+
+      request(app)
+        .get("/tier/removeCourseFromTiers/" +
+          setup.parentTier._id + "?courseId=" + setup.course._id + "&addAllLowerTiers=true")
+        .expect("Content-Type", /json/)
+        .expect(201)
+        .end(function (err, res) {
+          assert.equal(res.body, 201);
+          done();
+        });
+    });
+    
+    it("should update a tier", function (done) {
+      request(app)
+        .post("/tier/update/")
+        .send(setup.parentTier)
+        .expect("Content-Type", /json/)
+        .expect(201)
+        .end(function (err, res) {
+          assert.equal(res.body.title, setup.parentTier.title);
+          done();
+        });
+    });
+
+   
+
+    it("should remove tier and all its children", function (done) {
+
+      request(app)
+        .post("/tier/remove")
+        .send(setup.parentTier)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body, 200);
+          done();
+        });
+    });
+
+    
+  */
   });
 });
