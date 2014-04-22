@@ -60,6 +60,7 @@ var testSetUp = function (parentTier, childTier, course, user, record1, done) {
 
         user._tier = _tier;
         user._company = parentTier._id;
+
         createAndTestUser(user, function (result) {
           user = result;
           callback(null, user);
@@ -82,22 +83,17 @@ var testSetUp = function (parentTier, childTier, course, user, record1, done) {
 
     ],
     function (err, results) {
-      //console.log("final------------", record1)
       done(err, results);
     });
 };
 
-beforeEach(function (done) {
+before(function (done) {
   testSetUp(parentTier, childTier, course, user, record1, function (err, results) {
-    //record1 = results;
-    //console.log("record1------------", results)
     done();
   });
 });
 
-afterEach(function () {
-  //console.log("after delete", record1)
-
+after(function () {
   removeUser(user);
   removeRecord(record1);
   removeCourse(course);
