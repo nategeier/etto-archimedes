@@ -56,7 +56,19 @@ describe("Store", function () {
           done();
         });
     });
-   
+    */
+
+    it("should list all credits of a tier", function (done) {
+      request(app)
+        .get("/store/storeCourses/")
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+
+          //assert.notEqual(res.body[0], null);
+          done();
+        });
+    });
 
     it("should list all credits of a tier", function (done) {
       request(app)
@@ -68,6 +80,6 @@ describe("Store", function () {
           done();
         });
     });
-     */
+
   });
 });
