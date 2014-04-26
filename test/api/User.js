@@ -9,13 +9,14 @@ var app = require("../../index"),
 var Jack = require("../fixtures/data/jack");
 
 var removeUser = require("../helpers").removeFrom(routes.user.collection);
+var agent = request.agent(app);
 
 describe("User", function () {
   describe("POST " + routes.user.path, function () {
 
     it("should list users in a tier", function (done) {
 
-      request(app)
+      setup.agent
         .get("/user/listUsersInTier/" + setup.childTier._id)
         .expect("Content-Type", /json/)
         .expect(200)
@@ -39,14 +40,10 @@ describe("User", function () {
           done();
         });
     });
-    /*
+
     // Need to fuigure out how to set session to be able to view
     it("should list all details of a user", function (done) {
-      //setup.user._tier = setup.childTier._id;
-      request.session = {};
-      request.session.user = setup.user;
-
-      request(app)
+      setup.agent
         .get("/user/fullDetails/" + setup.user._id)
         .expect("Content-Type", /json/)
         .expect(200)
@@ -56,27 +53,11 @@ describe("User", function () {
         });
     });
 
-    it("should invite a new user", function (done) {
-      this.timeout(9000);
-      Jack._tier = setup.childTier._id;
-
-      request(app)
-        .post("/user/inviteUser")
-        .send(Jack)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
-          assert.equal(res.body.email[0], Jack.email);
-          removeUser(res.body);
-          done();
-        });
-    });
-    */
     it("should update users info", function (done) {
 
       setup.user.username = "newname";
 
-      request(app)
+      setup.agent
         .post("/user/update_users_tier")
         .send(setup.user)
         .expect("Content-Type", /json/)
@@ -89,10 +70,10 @@ describe("User", function () {
 
     it("should upate a user", function (done) {
 
-      var newName = "bill"
+      var newName = "bill";
       setup.user.name = newName;
 
-      request(app)
+      setup.agent
         .post("/user/update")
         .send(setup.user)
         .expect("Content-Type", /json/)
@@ -103,12 +84,54 @@ describe("User", function () {
         });
     });
 
-    /*
+    it("should get users course records", function (done) {
+      setup.agent
+        .get("/user/listUserCoursesRecords/" + setup.user._id)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.notEqual(res.body[0], null);
+          done();
+        });
+    });
+
+    it("should get users course records", function (done) {
+      setup.agent
+        .get("/user/listUsersCourses/" + setup.user._id)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.notEqual(res.body[0]._user, setup.user._id);
+          done();
+        });
+    });
+
+    it("should get users course records", function (done) {
+      setup.agent
+        .get("/user/sendForgotPw/" + setup.user.emails[0])
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          done();
+        });
+    });
+
+    it("should search for a user", function (done) {
+      setup.agent
+        .get("/user/searchUser/" + setup.user.name)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.notEqual(res.text[0].name, setup.user.name);
+          done();
+        });
+    });
+
     it("should invite a user info", function (done) {
 
       var newUser = {
         __v: 0,
-        email: ["nate@interactivebalance.com"],
+        emails: ["test@coursetto.com"],
         _tier: setup.childTier._id,
         auth: {
           canInvite: true,
@@ -122,7 +145,7 @@ describe("User", function () {
         }
       };
 
-      request(app)
+      setup.agent
         .post("/user/inviteUser")
         .send(newUser)
         .expect("Content-Type", /json/)
@@ -133,6 +156,6 @@ describe("User", function () {
           done();
         });
     });
-    */
+
   });
 });

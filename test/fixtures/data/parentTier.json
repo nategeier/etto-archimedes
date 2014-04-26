@@ -1,4 +1,10 @@
 {
   "title": "Galaxy",
-  "credits": 200
+  "credits": 200,
+  "logo": "/something.jpg",
+  "leaderboard": {
+    "title": "Start creating, taking, and sharing courses",
+    "subtitle": "Welome team",
+    "imgUrl": "/images/leaderboard/default-lg.jpg"
+  }
 }
