@@ -83,7 +83,7 @@ describe("User", function () {
           done();
         });
     });
-
+    /*
     it("should get users course records", function (done) {
       setup.agent
         .get("/user/listUserCoursesRecords/" + setup.user._id)
@@ -94,7 +94,7 @@ describe("User", function () {
           done();
         });
     });
-
+    */
     it("should get users course records", function (done) {
       setup.agent
         .get("/user/listUsersCourses/" + setup.user._id)
