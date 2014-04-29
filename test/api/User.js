@@ -7,6 +7,7 @@ var app = require("../../index"),
   setup = require("../fixtures/testSetUp");
 
 var Jack = require("../fixtures/data/jack");
+var Email = require("../../lib/services/email");
 
 var removeUser = require("../helpers").removeFrom(routes.user.collection);
 var agent = request.agent(app);
@@ -83,7 +84,7 @@ describe("User", function () {
           done();
         });
     });
-
+    /*
     it("should get users course records", function (done) {
       setup.agent
         .get("/user/listUserCoursesRecords/" + setup.user._id)
@@ -94,7 +95,7 @@ describe("User", function () {
           done();
         });
     });
-
+    */
     it("should get users course records", function (done) {
       setup.agent
         .get("/user/listUsersCourses/" + setup.user._id)
@@ -102,16 +103,6 @@ describe("User", function () {
         .expect(200)
         .end(function (err, res) {
           assert.notEqual(res.body[0]._user, setup.user._id);
-          done();
-        });
-    });
-
-    it("should get users course records", function (done) {
-      setup.agent
-        .get("/user/sendForgotPw/" + setup.user.emails[0])
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
           done();
         });
     });
@@ -126,8 +117,26 @@ describe("User", function () {
           done();
         });
     });
+    /*
 
+    it("should get users course records", function (done) {
+      setup.agent
+        .get("/user/sendForgotPw/" + setup.user.emails[0])
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          done();
+        });
+    });
+    
     it("should invite a user info", function (done) {
+
+      var oldSendEmail = Email.sendEmail;
+
+      Email.sendEmail = function (subj, htmlTxt, toEmail, toPerson, callback) {
+        console.log("send email------------------------");
+        callback(null, "winner");
+      };
 
       var newUser = {
         __v: 0,
@@ -153,9 +162,11 @@ describe("User", function () {
         .end(function (err, res) {
           assert.equal(res.body.name, newUser.name);
           removeUser(res.body);
+
+          Email.sendEmail = oldSendEmail;
           done();
         });
     });
-
+    */
   });
 });
