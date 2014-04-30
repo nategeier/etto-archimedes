@@ -65,17 +65,19 @@ var testSetUp = function (done) {
           .expect("Content-Type", /json/)
           .expect(200)
           .end(function (err, res) {
-            user._id = res.body._id;
-            callback(null, user);
+            user = res.body;
+            console.log("user------", res.body)
+            callback(null);
           });
       },
 
-      function (createdUser, callback) {
+      function (callback) {
+
         //--- Adds child tier, need to go to controller to handle popping in the ancesstors
         agent
           .post("/auth/local")
           .set("Accept", "application/json")
-          .send(createdUser)
+          .send(user)
           .expect("Content-Type", /json/)
           .expect(200)
           .end(function (err, res) {
@@ -96,8 +98,10 @@ var testSetUp = function (done) {
         Tier.addCourseAllDescendants(parentTier._id, course._id, function (err, result) {
           callback(err, course);
         });
-      },
+      }
+      /*,
       function (course, callback) {
+        console.log("createdUser------", user)
         //--- Adds child tier, need to go to controller to handle popping in the ancesstors
         agent
           .get("/record/create/" + user._id + "?courseId=" + course._id)
@@ -107,7 +111,7 @@ var testSetUp = function (done) {
           .end(function (err, res) {
             callback(null, null);
           });
-      },
+      },*/
     ],
     function (err, results) {
 

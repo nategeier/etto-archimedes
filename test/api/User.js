@@ -43,6 +43,7 @@ describe("User", function () {
     });
 
     // Need to fuigure out how to set session to be able to view
+    /*
     it("should list all details of a user", function (done) {
       setup.agent
         .get("/user/fullDetails/" + setup.user._id)
@@ -53,7 +54,7 @@ describe("User", function () {
           done();
         });
     });
-
+    
     it("should update users info", function (done) {
 
       setup.user.username = "newname";
@@ -68,22 +69,7 @@ describe("User", function () {
           done();
         });
     });
-
-    it("should upate a user", function (done) {
-
-      var newName = "bill";
-      setup.user.name = newName;
-
-      setup.agent
-        .post("/user/update")
-        .send(setup.user)
-        .expect("Content-Type", /json/)
-        .expect(200)
-        .end(function (err, res) {
-          assert.equal(res.body.name, newName);
-          done();
-        });
-    });
+    */
     /*
     it("should get users course records", function (done) {
       setup.agent
@@ -95,8 +81,8 @@ describe("User", function () {
           done();
         });
     });
-    */
-    it("should get users course records", function (done) {
+    
+    it("should get listUsersCourses", function (done) {
       setup.agent
         .get("/user/listUsersCourses/" + setup.user._id)
         .expect("Content-Type", /json/)
@@ -106,6 +92,8 @@ describe("User", function () {
           done();
         });
     });
+
+    */
 
     it("should search for a user", function (done) {
       setup.agent
