@@ -42,6 +42,22 @@ describe("User", function () {
         });
     });
 
+    it("should not send forgot password", function (done) {
+      var someUser = {
+        email: "notanEmail@coursetto.com"
+      }
+
+      request(app)
+        .post("/user/sendForgotPw")
+        .send(someUser)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.notEqual(res.body.message, null);
+          done();
+        });
+    });
+
     // Need to fuigure out how to set session to be able to view
     /*
     it("should list all details of a user", function (done) {
