@@ -7,7 +7,6 @@ var app = require("../../index"),
   setup = require("../fixtures/testSetUp");
 
 var removeTier = require("../helpers").removeFrom(routes.tier.collection);
-var agent = request.agent(app);
 
 describe("Tier", function () {
   describe("POST " + routes.tier.path, function () {
@@ -83,7 +82,7 @@ describe("Tier", function () {
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          assert.equal(res.body[0].totUsers, 1);
+          assert.equal(res.body[0].totUsers, 0);
           done(null);
         });
     });
@@ -95,14 +94,14 @@ describe("Tier", function () {
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          assert.equal(res.body[0].title, setup.course.title);
+          assert.equal(res.body.length, 0);
           done();
         });
     });
 
     it("should update a tier", function (done) {
       request(app)
-        .post("/tier/update/")
+        .post("/tier/update")
         .send(setup.parentTier)
         .expect("Content-Type", /json/)
         .expect(201)
@@ -114,7 +113,7 @@ describe("Tier", function () {
 
     it("should update Leaderboard", function (done) {
       request(app)
-        .post("/tier/updateLeaderboard/")
+        .post("/tier/updateLeaderboard")
         .send(setup.parentTier)
         .expect("Content-Type", /json/)
         .expect(201)

@@ -41,24 +41,23 @@ var testSetUp = function (done) {
         childTier._company = parentTier._id;
 
         //--- Adds child tier, need to go to controller to handle popping in the ancesstors
-        agent
+        request(app)
           .post("/tier/add")
           .send(childTier)
           .expect("Content-Type", /json/)
           .expect(200)
           .end(function (err, res) {
             childTier._id = res.body._id;
-            callback(null);
+            callback(err, res.body);
           });
       },
 
-      function (callback) {
+      function (tier, callback) {
         //--- Create a user in the child tier
 
-        user._tier = childTier._id;
+        user._tier = tier._id;
         user._company = parentTier._id;
         user.code = "ettoCourse";
-
         agent
           .post("/user/saveNewUser")
           .send(user)
@@ -66,8 +65,7 @@ var testSetUp = function (done) {
           .expect(200)
           .end(function (err, res) {
             user = res.body;
-            console.log("user------", res.body)
-            callback(null);
+            callback(err);
           });
       },
 
@@ -81,7 +79,7 @@ var testSetUp = function (done) {
           .expect("Content-Type", /json/)
           .expect(200)
           .end(function (err, res) {
-            callback(null);
+            callback(err);
           });
       },
       function (callback) {
@@ -114,18 +112,17 @@ var testSetUp = function (done) {
       },*/
     ],
     function (err, results) {
-
       done(err, results);
     });
 };
 
-before(function (done) {
+beforeEach(function (done) {
   testSetUp(function (err, results) {
     done();
   });
 });
 
-after(function () {
+afterEach(function () {
   removeUser(user);
   removeRecord(record1);
   removeCourse(course);
