@@ -49,7 +49,7 @@ function removeStripeSubscriptions(done) {
 }
 
 function addMongoSubscriptions(done) {
-  async.map(newSubscriptions, function (newSubscription, callback) {
+  async.mapSeries(newSubscriptions, function (newSubscription, callback) {
     var subscription = new Subscription(newSubscription);
     subscription.save(function (err, results) {
       callback(err, results);
