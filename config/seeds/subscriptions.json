@@ -52,7 +52,7 @@
   "title": "Medium",
   "empRange": {
     "low": 201,
-    "high": 50000
+    "high": 1000
   },
   "subscriptions": [{
     "courseRange": {
@@ -76,8 +76,8 @@
 }, {
   "title": "Large",
   "empRange": {
-    "low": 5000,
-    "high": 100000
+    "low": 1000,
+    "high": 1000000
   },
   "subscriptions": [{
     "courseRange": {
