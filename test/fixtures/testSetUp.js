@@ -56,7 +56,7 @@ var testSetUp = function (done) {
         //--- Create a user in the child tier
 
         user._tier = tier._id;
-        user._company = parentTier._id;
+        //user._company = parentTier._id;
         user.code = "ettoCourse";
         agent
           .post("/user/saveNewUser")
