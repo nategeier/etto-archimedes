@@ -4,6 +4,7 @@ var app = require("../../index"),
   assert = require("assert"),
   request = require("supertest"),
   routes = require("../routes.json"),
+  Store = require("../../lib/controllers/Store"),
   setup = require("../fixtures/testSetUp");
 
 var removeTier = require("../helpers").removeFrom(routes.tier.collection);
@@ -22,7 +23,13 @@ describe("Tier", function () {
           done(null);
         });
     });
-
+    /*
+    it("should count all users in a company", function (done) {
+      Store.countUsersInCompany(setup.parentTier._id, function (err, results) {
+        done();
+      });
+    });
+    */
     it("should create a company", function (done) {
 
       var newCompany = {
