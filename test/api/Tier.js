@@ -23,13 +23,7 @@ describe("Tier", function () {
           done(null);
         });
     });
-    /*
-    it("should count all users in a company", function (done) {
-      Store.countUsersInCompany(setup.parentTier._id, function (err, results) {
-        done();
-      });
-    });
-    */
+
     it("should create a company", function (done) {
 
       var newCompany = {
