@@ -24,6 +24,29 @@ describe("Tier", function () {
         });
     });
 
+    it("should update company colors", function (done) {
+
+      setup.parentTier.colors = {
+        primary: "#eeeeee",
+        secondary: "#ffffff",
+        accent: "#999999",
+        light: "#eeeeee"
+      };
+
+      setup.parentTier.font = "Lato";
+
+
+      setup.agent
+        .post("/tier/changeWhiteLabel")
+        .send(setup.parentTier)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          assert.equal(res.body.colors.primary, setup.parentTier.colors.primary);
+          done(null);
+        });
+    });
+
     it("should create a company", function (done) {
 
       var newCompany = {
