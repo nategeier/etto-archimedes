@@ -15,7 +15,7 @@ function removeMongoSubscriptions(done) {
   Subscription.remove(function (err) {
     done(err);
   });
-}
+};
 
 function removeStripeSubscriptions(done) {
   var plans;
@@ -61,22 +61,20 @@ function addMongoSubscriptions(done) {
 
 function addStripeSubdscriptions(subscriptionTypes, done) {
   async.map(subscriptionTypes, function (subscriptionType, callback) {
-    async.map(subscriptionType.subscriptions, function (subscription, callback) {
-      var title = subscriptionType.title + " " + subscription.courseRange.low + "-" + subscription.courseRange.high;
 
-      stripe.plans.create({
-        amount: Number(subscription.price) * 100,
-        interval: "month",
-        name: title,
-        currency: "usd",
-        id: String(subscription._id)
-      }, function (err, plan) {
-        // asynchronously called
-        callback(err, plan);
-      });
-    }, function (err, results) {
-      callback(err, results);
+    var title = subscriptionType.title + " " + subscriptionType.empRange.low + "-" + subscriptionType.empRange.high;
+
+    stripe.plans.create({
+      amount: Number(subscriptionType.price) * 100,
+      interval: "month",
+      name: title,
+      currency: "usd",
+      id: String(subscriptionType._id)
+    }, function (err, plan) {
+      // asynchronously called
+      callback(err, plan);
     });
+
   }, function (err) {
     done(err, subscriptionTypes);
   });
