@@ -1,6 +1,6 @@
 {
   "name": "etto-archimedes",
-  "version": "0.0.0",
+  "version": "0.0.0-40",
   "description": "Coursetto backend, TDD style",
   "author": "Coursetto Inc. <admin@coursetto.com>",
   "license": "Private",
@@ -29,7 +29,8 @@
     "aws-sdk": "~2.0.0-rc11",
     "mongoose-text-search": "0.0.2",
     "lodash": "~2.4.1",
-    "cors": "^2.2.0"
+    "cors": "^2.2.0",
+    "socket.io": "~1.1.0"
   },
   "devDependencies": {
     "mocha": "~1.16.2",
