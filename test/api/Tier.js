@@ -167,8 +167,20 @@ describe("Tier", function () {
           done();
         });
     });
-
     /*
+    it("should sync users to BambooHR", function (done) {
+      this.timeout(10000)
+      setup.agent
+        .post("/tier/syncBambooHR/" + setup.parentTier._id)
+        .expect("Content-Type", /json/)
+        .expect(200)
+
+      .end(function (err, res) {
+        assert.equal(res.body.updated, true);
+        done();
+      });
+    });
+    
     it("should remove a course from a tier", function (done) {
 
       request(app)
