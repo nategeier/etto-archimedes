@@ -5,6 +5,7 @@
   "username": "longmanchoo",
   "password": "secrithidden",
   "_tier": "531f3d83184593f0116af534",
+  "enabled": true,
   "auth": {
     "canPurchase": true,
     "canCreateCourses": true,
