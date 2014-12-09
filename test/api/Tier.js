@@ -111,6 +111,20 @@ describe("Tier", function () {
         });
     });
 
+
+    it("should list all children recursively from tier ", function (done) {
+
+      request(app)
+        .get("/tier/countUsersInTierTree/" + setup.parentTier._id)
+        .expect("Content-Type", /json/)
+        .expect(200)
+        .end(function (err, res) {
+          console.log("tre--------", res.body)
+          //assert.equal(res.body[0].totUsers, 0);
+          done(null);
+        });
+    });
+
     it("should list all courses in tier", function (done) {
 
       setup.agent
