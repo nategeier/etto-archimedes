@@ -119,7 +119,6 @@ describe("Tier", function () {
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          console.log("tre--------", res.body)
           //assert.equal(res.body[0].totUsers, 0);
           done(null);
         });

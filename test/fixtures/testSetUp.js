@@ -97,19 +97,6 @@ var testSetUp = function (done) {
           callback(err, course);
         });
       }
-      /*,
-      function (course, callback) {
-        console.log("createdUser------", user)
-        //--- Adds child tier, need to go to controller to handle popping in the ancesstors
-        agent
-          .get("/record/create/" + user._id + "?courseId=" + course._id)
-          .set("Accept", "application/json")
-          .expect("Content-Type", /json/)
-          .expect(200)
-          .end(function (err, res) {
-            callback(null, null);
-          });
-      },*/
     ],
     function (err, results) {
       done(err, results);
