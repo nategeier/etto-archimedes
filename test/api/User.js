@@ -24,7 +24,6 @@ describe("User", function () {
         .expect("Content-Type", /json/)
         .expect(200)
         .end(function (err, res) {
-          //console.log(res.body)
           //assert.equal(res.body[0].name, setup.user.name);
           done();
         });
@@ -61,7 +60,7 @@ describe("User", function () {
         });
     });
 
-    // Need to fuigure out how to set session to be able to view
+    // Need to figure out how to set session to be able to view
     /*
     it("should list all details of a user", function (done) {
       setup.agent
