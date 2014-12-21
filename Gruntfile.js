@@ -100,7 +100,7 @@ module.exports = function (grunt) {
       },
       dox: {
         options: {
-          port: 8080,
+          port: 9090,
           middleware: function (connect) {
             return [
               lrSnippet,
